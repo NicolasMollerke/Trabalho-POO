@@ -12,4 +12,13 @@ public class Velociraptor extends Dinossauro{
     public Velociraptor () {
         super(2);
     }
+
+    @Override
+    public boolean podeSerAtingidoPorDardo(){
+        return false;
+    }
+
+    public void mover(Tabuleiro tabuleiro, Personagem personagem){
+
+    }
 }

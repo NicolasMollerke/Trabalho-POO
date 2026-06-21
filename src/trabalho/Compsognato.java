@@ -12,4 +12,9 @@ public class Compsognato extends Dinossauro{
     public Compsognato (){
         super(1);
     }
+
+    @Override
+    public void mover(Tabuleiro tabuleiro, Personagem personagem){
+
+    }
 }

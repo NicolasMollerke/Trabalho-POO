@@ -12,4 +12,19 @@ public class Rex extends Dinossauro{
     public Rex () {
         super(3);
     }
+
+    @Override
+    public int getDanoAtaque(){
+        return 2;
+    }
+
+    @Override
+    public boolean podeSerAtingidoComMaoNua(){
+        return false;
+    }
+
+    @Override
+    public void mover(Tabuleiro tabuleiro, Personagem personagem){
+
+    }
 }
