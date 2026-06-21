@@ -14,13 +14,13 @@ public class Trabalho {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         Scanner teclado = new Scanner(System.in);
         
         System.out.println("Ecolha sua dificuldade:");
-        System.out.println("1.Fácil");
-        System.out.println("2.Médio");
-        System.out.println("3.Difícil");
+        System.out.println("1.Facil");
+        System.out.println("2.Medio");
+        System.out.println("3.Dificil");
         
         int dificuldade = teclado.nextInt();
         
@@ -28,9 +28,8 @@ public class Trabalho {
         
         switch (dificuldade) {
             case 1:
-                // >>> 2. APENAS INSTANCIA (Sem repetir a palavra "Personagem") <<<
                 personagem = new Personagem(3); 
-                break; // IMPORTANTE: Para o switch aqui e vai para o final
+                break;
                 
             case 2:
                 personagem = new Personagem(2);
@@ -48,6 +47,23 @@ public class Trabalho {
         
         Tabuleiro tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
         
-        tabuleiro.mostrarTabuleiro();
+        int opcao;
+        
+        do {
+            tabuleiro.mostrarTabuleiro();
+            System.out.println("1.Mover");
+            System.out.println("2.Curar");
+            System.out.println("3.Debug");
+            System.out.println("4.Mover");
+            
+            opcao = teclado.nextInt();
+            
+            switch (opcao) {
+                case 1: 
+                    personagem.moverJogador(tabuleiro);
+                    break;
+            }
+            
+        } while (opcao != 4);
     }
 }
