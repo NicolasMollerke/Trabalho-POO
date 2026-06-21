@@ -8,6 +8,8 @@ package trabalho;
  *
  * @author nicol
  */
-public class Velociraptor {
-    
+public class Velociraptor extends Dinossauro{
+    public Velociraptor () {
+        super(2);
+    }
 }

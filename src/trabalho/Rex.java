@@ -8,6 +8,8 @@ package trabalho;
  *
  * @author nicol
  */
-public class Rex {
-    
+public class Rex extends Dinossauro{
+    public Rex () {
+        super(3);
+    }
 }

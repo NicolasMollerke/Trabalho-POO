@@ -8,6 +8,10 @@ package trabalho;
  *
  * @author nicol
  */
-public class Dinossauro {
+public abstract class Dinossauro extends Elemento{
+    private int saude;
     
+    public Dinossauro(int saude){
+        this.saude = saude;
+    }
 }

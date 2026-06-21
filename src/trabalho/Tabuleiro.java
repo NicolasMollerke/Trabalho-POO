@@ -8,9 +8,9 @@ package trabalho;
  *
  * @author nicol
  */
-public class Trodonte extends Dinossauro{
-    public Trodonte () {
-        super(2);
-    }
+public class Tabuleiro {
+    private Elemento[][] matriz;
+    private int tamanho;
     
+    public Tabuleiro ()
 }

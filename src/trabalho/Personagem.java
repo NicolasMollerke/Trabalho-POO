@@ -9,5 +9,9 @@ package trabalho;
  * @author nicol
  */
 public class Personagem {
+    private int percepcao;
     
+    public Personagem (int percepcao) {
+        this.percepcao = percepcao;
+    }
 }

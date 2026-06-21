@@ -8,6 +8,8 @@ package trabalho;
  *
  * @author nicol
  */
-public class Compsognato {
-    
+public class Compsognato extends Dinossauro{
+    public Compsognato (){
+        super(1);
+    }
 }
