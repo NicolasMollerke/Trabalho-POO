@@ -9,8 +9,8 @@ package trabalho;
  * @author nicol
  */
 public class Compsognato extends Dinossauro{
-    public Compsognato (){
-        super(1);
+    public Compsognato (int i, int j) {
+        super(1, i, j);
     }
 
     @Override

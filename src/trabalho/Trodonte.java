@@ -9,8 +9,8 @@ package trabalho;
  * @author nicol
  */
 public class Trodonte extends Dinossauro{
-    public Trodonte () {
-        super(2);
+    public Trodonte (int i, int j) {
+        super(2, i, j);
     }
 
     public void mover(Tabuleiro tabuleiro, Personagem personagem){

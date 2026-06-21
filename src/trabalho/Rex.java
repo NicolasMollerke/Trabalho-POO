@@ -9,8 +9,8 @@ package trabalho;
  * @author nicol
  */
 public class Rex extends Dinossauro{
-    public Rex () {
-        super(3);
+    public Rex (int i, int j) {
+        super(3, i, j);
     }
 
     public int getDanoAtaque(){

@@ -9,8 +9,8 @@ package trabalho;
  * @author nicol
  */
 public class Velociraptor extends Dinossauro{
-    public Velociraptor () {
-        super(2);
+    public Velociraptor (int i, int j) {
+        super(2, i, j);
     }
 
     @Override

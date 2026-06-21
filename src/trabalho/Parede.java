@@ -9,6 +9,11 @@ package trabalho;
  * @author nicol
  */
 public class Parede extends Elemento{
+    
+    public Parede (int i, int j) {
+        super(i,j);
+    }
+    
     public String getSimbolo() { 
         return "#"; 
     }

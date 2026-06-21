@@ -9,5 +9,17 @@ package trabalho;
  * @author nicol
  */
 public abstract class Elemento {
+    protected int linha;
+    protected int coluna;
+    
     public abstract String getSimbolo();
+    
+    public Elemento (int i, int j) {
+        linha = i;
+        coluna = j;
+    }
+    
+    public int getLinha() {
+        return linha;
+    }
 }

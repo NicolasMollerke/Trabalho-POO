@@ -12,7 +12,8 @@ public abstract class Dinossauro extends Elemento{
     private int saude;
 
     
-    public Dinossauro(int saude){
+    public Dinossauro(int saude, int i, int j){
+        super(i, j);
         this.saude = saude;
     }
 

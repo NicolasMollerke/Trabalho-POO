@@ -9,7 +9,7 @@ package trabalho;
  * @author nicol
  */
 public class Kit extends Elemento {
-    public Kit () {
-        
+    public Kit (int i, int j) {
+        super(i, j);
     }
 }
