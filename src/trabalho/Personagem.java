@@ -8,10 +8,18 @@ package trabalho;
  *
  * @author nicol
  */
-public class Personagem {
+public class Personagem extends Elemento{
     private int percepcao;
+    private Arma arma;
+    private Bastao bastao;
     
     public Personagem (int percepcao) {
         this.percepcao = percepcao;
+        this.arma = null;
+        this.bastao = null;
+    }
+    
+    public String getSimbolo() { 
+        return "P"; 
     }
 }

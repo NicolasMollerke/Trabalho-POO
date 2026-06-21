@@ -8,16 +8,12 @@ package trabalho;
  *
  * @author nicol
  */
-public class Trodonte extends Dinossauro{
-    public Trodonte () {
-        super(2);
-    }
-
-    public void mover(Tabuleiro tabuleiro, Personagem personagem){
-
+public class Bastao extends Elemento{
+    public Bastao () {
+        
     }
     
     public String getSimbolo() { 
-        return "T"; 
+        return "X"; 
     }
 }

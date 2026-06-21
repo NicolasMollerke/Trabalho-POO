@@ -8,6 +8,6 @@ package trabalho;
  *
  * @author nicol
  */
-public class Elemento {
-    
+public abstract class Elemento {
+    public abstract String getSimbolo();
 }

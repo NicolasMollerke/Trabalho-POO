@@ -13,18 +13,20 @@ public class Rex extends Dinossauro{
         super(3);
     }
 
-    @Override
     public int getDanoAtaque(){
         return 2;
     }
 
-    @Override
-    public boolean podeSerAtingidoComMaoNua(){
+    public boolean podeSerAtingidoPorMaoNua(){
         return false;
     }
 
     @Override
     public void mover(Tabuleiro tabuleiro, Personagem personagem){
 
+    }
+    
+    public String getSimbolo() { 
+        return "R"; 
     }
 }

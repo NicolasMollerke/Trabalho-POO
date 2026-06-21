@@ -46,6 +46,8 @@ public class Trabalho {
                 break;
         }
         
+        Tabuleiro tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
         
+        tabuleiro.mostrarTabuleiro();
     }
 }

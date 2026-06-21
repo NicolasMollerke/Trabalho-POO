@@ -17,4 +17,8 @@ public class Compsognato extends Dinossauro{
     public void mover(Tabuleiro tabuleiro, Personagem personagem){
 
     }
+    
+    public String getSimbolo() { 
+        return "C"; 
+    }
 }
