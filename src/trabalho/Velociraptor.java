@@ -4,6 +4,8 @@
  */
 package trabalho;
 
+import java.util.Random;
+
 /**
  *
  * @author nicol
@@ -13,13 +15,55 @@ public class Velociraptor extends Dinossauro{
         super(2, i, j);
     }
 
-    @Override
     public boolean podeSerAtingidoPorDardo(){
         return false;
     }
 
-    public void mover(Tabuleiro tabuleiro, Personagem personagem){
+    public void mover(Tabuleiro tabuleiro){
+        Random gerador = new Random();
+        Elemento[][] matriz = tabuleiro.getMatriz();
+        
+        
+        for (int i=0; i < 2; i++) {
+            int direcao = gerador.nextInt(4) + 1;
+            
+            if (direcao == 1) {
+                int linhaNova = this.linha - 1;
+                if (linhaNova >= 0 && matriz[linhaNova][this.coluna] == null){
+                    matriz[linhaNova][this.coluna] = this;
+                    matriz[this.linha][this.coluna] = null;
+                    this.linha = linhaNova;
+                }
+            }
 
+            if (direcao == 2) {
+                int colunaNova = this.coluna - 1;
+                if (colunaNova >= 0 && matriz[this.linha][colunaNova] == null) {
+                    matriz[this.linha][colunaNova] = this;
+                    matriz[this.linha][this.coluna] = null;
+                    this.coluna = colunaNova;
+                }
+            }
+
+            if (direcao == 3) {
+                int colunaNova = this.coluna + 1;
+                if (colunaNova >= 0 && matriz[this.linha][colunaNova] == null) {
+                    matriz[this.linha][colunaNova] = this;
+                    matriz[this.linha][this.coluna] = null;
+                    this.coluna = colunaNova;
+                }
+            }
+
+            if (direcao == 4) {
+                int linhaNova = this.linha + 1;
+                if (linhaNova >= 0 && matriz[linhaNova][this.coluna] == null) {
+                    matriz[linhaNova][this.coluna] = this;
+                    matriz[this.linha][this.coluna] = null;
+                    this.linha = linhaNova;
+                }
+            }
+            
+        }
     }
     
     public String getSimbolo() { 
