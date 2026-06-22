@@ -61,6 +61,7 @@ public class Trabalho {
             switch (opcao) {
                 case 1: 
                     personagem.moverJogador(tabuleiro);
+                    tabuleiro.moverDinossauros();
                     break;
             }
             
