@@ -7,18 +7,26 @@ import java.util.Scanner;
 public class Tabuleiro {
     private Elemento[][] matriz;
     private int tamanho;
-    private Personagem jogador;
+    private Personagem personagem;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
         this.tamanho = 10; 
         this.matriz = new Elemento[tamanho][tamanho]; 
-        this.jogador = personagem;
+        this.personagem = personagem;
         
         this.lerTabuleiro(caminhoArquivo);
     }
     
     public Elemento[][] getMatriz() {
         return matriz;
+    }
+    
+    public int getTamanho() {
+        return tamanho;
+    }
+    
+    public Personagem getPersonagem() {
+        return personagem;
     }
     
     private void lerTabuleiro (String caminhoArquivo) {
@@ -33,8 +41,8 @@ public class Tabuleiro {
                         
                         switch (caractere) {
                             case "P": 
-                                this.matriz[i][j] = jogador;
-                                jogador.setPosicao(i, j);
+                                this.matriz[i][j] = personagem;
+                                personagem.setPosicao(i, j);
                                 break;
                             case "#":
                                 this.matriz[i][j] = new Parede(i, j);
@@ -69,8 +77,8 @@ public class Tabuleiro {
     }
     
     public void mostrarTabuleiro () {
-        int x = jogador.linha;
-        int y = jogador.coluna;
+        int x = personagem.linha;
+        int y = personagem.coluna;
         boolean visivel[][] = this.campoDeVisao(x, y);
         
         System.out.print("  ");
@@ -135,27 +143,26 @@ public class Tabuleiro {
         return visivel;
     }
     
-    public int posicaoVertical (Elemento elemento) {
-        for (int i = 0; i < tamanho; i++){
-            for (int j = 0; j < tamanho; j++){
-                if (matriz[i][j] == elemento) {
-                    return i;
+    public void moverDinossauros () {
+        java.util.ArrayList<Dinossauro> movidos = new java.util.ArrayList<>();
+        
+        for (int i=0; i < tamanho; i++) {
+            for (int j=0; j < tamanho; j++) {
+                Elemento atual = this.matriz[i][j];
+                
+                if (atual instanceof Dinossauro) {
+                    Dinossauro dinossauro = (Dinossauro) atual;
+                    
+                    if(!movidos.contains(dinossauro)) {
+                        dinossauro.mover(this);
+                        
+                        movidos.add(dinossauro);
+                    }
                 }
+
             }
         }
-    
-        return -1;
+        
     }
     
-    public int posicaoHorizontal (Elemento elemento) {
-        for (int i = 0; i < tamanho; i++){
-            for (int j = 0; j < tamanho; j++){
-                if (matriz[i][j] == elemento) {
-                    return j;
-                }
-            }
-        }
-    
-        return -1;
-    }
 }
