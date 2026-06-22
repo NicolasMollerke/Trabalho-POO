@@ -24,45 +24,32 @@ public class Velociraptor extends Dinossauro{
         Elemento[][] matriz = tabuleiro.getMatriz();
         
         
-        for (int i=0; i < 2; i++) {
-            int direcao = gerador.nextInt(4) + 1;
+        for (int i=0; i<2; i++) {
+            boolean mover = false;
             
-            if (direcao == 1) {
-                int linhaNova = this.linha - 1;
-                if (linhaNova >= 0 && matriz[linhaNova][this.coluna] == null){
-                    matriz[linhaNova][this.coluna] = this;
-                    matriz[this.linha][this.coluna] = null;
-                    this.linha = linhaNova;
+            while (!mover) {
+                int direcao = gerador.nextInt(4) + 1;
+                
+                int linhaNova = this.linha;
+                int colunaNova = this.coluna;
+                
+                if (direcao == 1) linhaNova--; //Cima
+                else if (direcao == 2) colunaNova--; // Esquerda
+                else if (direcao == 3) colunaNova++; // Direita
+                else if (direcao == 4) linhaNova++;  // Baixo
+                
+                if (linhaNova >= 0 && linhaNova < tabuleiro.getTamanho() && colunaNova >=0 && colunaNova < tabuleiro.getTamanho()){
+                    if (matriz[linhaNova][colunaNova] == null) {
+                        matriz[this.linha][this.coluna] = null;
+                        matriz[linhaNova][colunaNova] = this;
+                        
+                        this.linha = linhaNova;
+                        this.coluna = colunaNova;
+                        
+                        mover = true;
+                    }
                 }
             }
-
-            if (direcao == 2) {
-                int colunaNova = this.coluna - 1;
-                if (colunaNova >= 0 && matriz[this.linha][colunaNova] == null) {
-                    matriz[this.linha][colunaNova] = this;
-                    matriz[this.linha][this.coluna] = null;
-                    this.coluna = colunaNova;
-                }
-            }
-
-            if (direcao == 3) {
-                int colunaNova = this.coluna + 1;
-                if (colunaNova >= 0 && matriz[this.linha][colunaNova] == null) {
-                    matriz[this.linha][colunaNova] = this;
-                    matriz[this.linha][this.coluna] = null;
-                    this.coluna = colunaNova;
-                }
-            }
-
-            if (direcao == 4) {
-                int linhaNova = this.linha + 1;
-                if (linhaNova >= 0 && matriz[linhaNova][this.coluna] == null) {
-                    matriz[linhaNova][this.coluna] = this;
-                    matriz[this.linha][this.coluna] = null;
-                    this.linha = linhaNova;
-                }
-            }
-            
         }
     }
     
