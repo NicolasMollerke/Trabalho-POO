@@ -63,6 +63,9 @@ public class Trabalho {
                     personagem.moverJogador(tabuleiro);
                     tabuleiro.moverDinossauros();
                     break;
+                case 3:
+                    tabuleiro.ativarDebug();
+                    break;
             }
             
         } while (opcao != 4);
