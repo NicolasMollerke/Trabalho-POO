@@ -8,6 +8,7 @@ public class Tabuleiro {
     private Elemento[][] matriz;
     private int tamanho;
     private Personagem personagem;
+    private boolean debug;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
         this.tamanho = 10; 
@@ -85,22 +86,38 @@ public class Tabuleiro {
         for (int col = 1; col <= 10; col++) System.out.print(col + " ");
         System.out.println();
         
+        if (!debug) {
+            for (int i = 0; i < tamanho; i++){
+                System.out.print((char)('A' + i) + "| "); 
 
-        for (int i = 0; i < tamanho; i++){
-            System.out.print((char)('A' + i) + "| "); 
+                for (int j = 0; j < tamanho; j++){
+                    Elemento atual = this.matriz[i][j];
 
-            for (int j = 0; j < tamanho; j++){
-                Elemento atual = this.matriz[i][j];
-            
-                if (atual == null && visivel[i][j]) {
-                    System.out.print(". "); 
-                } else if (atual != null && visivel[i][j]) {
-                   System.out.print(atual.getSimbolo() + " ");
-                } else {
-                    System.out.print("? "); 
+                    if (atual == null && visivel[i][j]) {
+                        System.out.print(". "); 
+                    } else if (atual != null && visivel[i][j]) {
+                       System.out.print(atual.getSimbolo() + " ");
+                    } else {
+                        System.out.print("? "); 
+                    }
                 }
+                System.out.println();
             }
-            System.out.println();
+        } else {
+            for (int i = 0; i < tamanho; i++){
+                System.out.print((char)('A' + i) + "| "); 
+
+                for (int j = 0; j < tamanho; j++){
+                    Elemento atual = this.matriz[i][j];
+
+                    if (atual == null) {
+                        System.out.print(". "); 
+                    }else {
+                       System.out.print(atual.getSimbolo() + " ");
+                    }
+                }
+                System.out.println();
+            }
         }
         
     }
@@ -163,6 +180,10 @@ public class Tabuleiro {
             }
         }
         
+    }
+    
+    public void ativarDebug() {
+        this.debug = true;
     }
     
 }
