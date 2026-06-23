@@ -12,4 +12,8 @@ public class Kit extends Elemento {
     public Kit (int i, int j) {
         super(i, j);
     }
+    
+    public String getSimbolo() { 
+        return "X"; 
+    }
 }
