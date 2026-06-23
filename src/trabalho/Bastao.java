@@ -9,8 +9,8 @@ package trabalho;
  * @author nicol
  */
 public class Bastao extends Elemento{
-    public Bastao () {
-        
+    public Bastao (int i, int j) {
+        super(i, j);
     }
     
     public String getSimbolo() { 
