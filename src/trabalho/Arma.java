@@ -11,8 +11,9 @@ package trabalho;
 public class Arma extends Elemento{
     private int municao;
     
-    public Arma() {
+    public Arma(int i, int j) {
         this.municao = 1;
+        super(i, j);
     }
     
     public String getSimbolo() { 
