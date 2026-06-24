@@ -19,4 +19,16 @@ public class Arma extends Elemento{
     public String getSimbolo() { 
         return "X"; 
     }
+    
+    public int getMunicao () {
+        return  municao;
+    }
+    
+    public void ganhaMunicao () {
+        this.municao += 1;
+    }
+    
+    public void gastarMunicao() {
+        this.municao -= 1;
+    }
 }

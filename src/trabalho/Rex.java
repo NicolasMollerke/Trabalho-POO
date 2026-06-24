@@ -21,6 +21,10 @@ public class Rex extends Dinossauro{
         return false;
     }
     
+    public int atacar(Personagem personagem) {
+        return 1;
+    }
+    
     public String getSimbolo() { 
         return "R"; 
     }

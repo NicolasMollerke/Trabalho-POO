@@ -53,6 +53,10 @@ public class Velociraptor extends Dinossauro implements Movel{
         }
     }
     
+    public int atacar(Personagem personagem) {
+        return 1;
+    }
+    
     public String getSimbolo() { 
         return "V"; 
     }

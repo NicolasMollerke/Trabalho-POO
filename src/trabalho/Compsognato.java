@@ -48,6 +48,10 @@ public class Compsognato extends Dinossauro implements Movel{
         }
     }
     
+    public int atacar(Personagem personagem) {
+        return 1;
+    }
+    
     public String getSimbolo() { 
         return "C"; 
     }

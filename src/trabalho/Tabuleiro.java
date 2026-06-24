@@ -9,11 +9,13 @@ public class Tabuleiro {
     private int tamanho;
     private Personagem personagem;
     private boolean debug;
+    private int numDinossauros;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
         this.tamanho = 20; 
         this.matriz = new Elemento[tamanho][tamanho]; 
         this.personagem = personagem;
+        this.numDinossauros = 0;
         
         this.lerTabuleiro(caminhoArquivo);
     }
@@ -28,6 +30,18 @@ public class Tabuleiro {
     
     public Personagem getPersonagem() {
         return personagem;
+    }
+    
+    public void adicionaDinossauro() {
+        this.numDinossauros++;
+    }
+    
+    public void removeDinossauro() {
+        this.numDinossauros--;
+    }
+    
+    public boolean semDinossauros() {
+        return numDinossauros <= 0;
     }
     
     private void lerTabuleiro (String caminhoArquivo) {
@@ -50,18 +64,22 @@ public class Tabuleiro {
                                 break;
                             case "T":
                                 this.matriz[i][j] = new Trodonte(i, j);
+                                this.numDinossauros++;
                                 break;
                             case "V":
                                 this.matriz[i][j] = new Velociraptor(i, j);
+                                this.numDinossauros++;
                                 break;
                             case "C":
                                 this.matriz[i][j] = new Compsognato(i, j);
+                                this.numDinossauros++;
                                 break;
                             case "X":
                                 this.matriz[i][j] = new Caixa(i, j);
                                 break;
                             case "R":
                                 this.matriz[i][j] = new Rex(i, j);
+                                this.numDinossauros++;
                                 break;
                             default:
                                 this.matriz[i][j] = null;

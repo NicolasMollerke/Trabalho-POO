@@ -16,63 +16,115 @@ public class Trabalho {
      */
     public static void main(String[] args) {        
         Scanner teclado = new Scanner(System.in);
+        boolean appRodando = true;
         
-        System.out.println("Ecolha sua dificuldade:");
-        System.out.println("1.Facil");
-        System.out.println("2.Medio");
-        System.out.println("3.Dificil");
-        
-        int dificuldade = teclado.nextInt();
-        
-        Personagem personagem = null; 
-        
-        switch (dificuldade) {
-            case 1:
-                personagem = new Personagem(3); 
-                break;
-                
-            case 2:
-                personagem = new Personagem(2);
-                break;
-                
-            case 3:
-                personagem = new Personagem(1);
-                break;
-                
-            default:
-                System.out.println("Opção inválida! Criando personagem com dificuldade padrão (2 vidas).");
-                personagem = new Personagem(2);
-                break;
-        }
-        
-        Tabuleiro tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
-        
-        int opcao;
-        
-        do {
-            tabuleiro.mostrarTabuleiro();
-            System.out.println("1.Mover");
-            System.out.println("2.Curar");
-            System.out.println("3.Debug");
-            System.out.println("4.Mover");
+        while (appRodando) {
+            System.out.println("===== MENU INICIAL =====");
+            System.out.println("1. Jogar");
+            System.out.println("2. Sair");
             
-            opcao = teclado.nextInt();
+            int menuInicial = teclado.nextInt();
             
-            switch (opcao) {
-                case 1: 
-                        System.out.println("[DEBUG MAIN] Iniciando moverJogador...");
-                        personagem.mover(tabuleiro);
-                        System.out.println("[DEBUG MAIN] Jogador moveu com sucesso!");
-
-                        System.out.println("[DEBUG MAIN] Iniciando moverDinossauros...");
-                        tabuleiro.moverDinossauros();
-                        System.out.println("[DEBUG MAIN] Dinossauros moveram com sucesso!"); // Se não printar isso, o erro está aqui!
-                        break;
-                case 3:
-                    tabuleiro.ativarDebug();
-                    break;
+            if (menuInicial == 2) {
+                System.out.println("Saindo do jogo... Até mais!");
+                appRodando = false;
+                break;
+            } else if (menuInicial != 1) {
+                System.out.println("Opção inválida!");
+                continue;
             }
             
-        } while (opcao != 4);
+            boolean escolhaDificuldade = true;
+            
+            while (escolhaDificuldade) {
+                // --- 2. ESCOLHA DE DIFICULDADE (Novo jogo volta para cá) ---
+                System.out.println("Ecolha sua dificuldade:");
+                System.out.println("1.Facil");
+                System.out.println("2.Medio");
+                System.out.println("3.Dificil");
+                
+                int dificuldade = teclado.nextInt();
+                
+                Personagem personagem = null; 
+                
+                switch (dificuldade) {
+                    case 1:
+                        personagem = new Personagem(3); 
+                        break;
+                        
+                    case 2:
+                        personagem = new Personagem(2);
+                        break;
+                        
+                    case 3:
+                        personagem = new Personagem(1);
+                        break;
+                        
+                    default:
+                        System.out.println("Opção inválida! Criando personagem com dificuldade padrão (2 vidas).");
+                        personagem = new Personagem(2);
+                        break;
+                }
+                
+                boolean mesmaPartida = true;
+                
+                while (mesmaPartida) {
+                    Tabuleiro tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
+                    int opcao;
+                    
+                    do {
+                        tabuleiro.mostrarTabuleiro();
+                        System.out.println("1.Mover");
+                        System.out.println("2.Curar");
+                        System.out.println("3.Debug");
+                        System.out.println("4.Sair");
+                        
+                        opcao = teclado.nextInt();
+                        
+                        switch (opcao) {
+                            case 1: 
+                                personagem.mover(tabuleiro);
+                                tabuleiro.moverDinossauros();
+                                break;
+                            case 2:
+                                personagem.usarKit();
+                                break;
+                            case 3:
+                                tabuleiro.ativarDebug();
+                                break;
+                        }
+                        
+                        if (!(personagem.estaVivo())) {
+                            System.out.println("Seu personagem morreu! Você perdeu o jogo");
+                            opcao = 4;
+                        } 
+                        
+                        if (tabuleiro.semDinossauros()) {
+                            System.out.println("Todos dinossauros derrotados, você venceu!");
+                            opcao = 4;
+                        }
+                        
+                    } while (opcao != 4);
+                    
+                    System.out.println("\nO que deseja fazer?");
+                    System.out.println("1. Reiniciar jogo");
+                    System.out.println("2. Novo jogo");
+                    
+                    int escolhaFim = teclado.nextInt();
+                    
+                    if (escolhaFim == 1) {
+                        System.out.println("🔄 Reiniciando com as posições iniciais...");
+                    } else if (escolhaFim == 2) {
+                        System.out.println("🔄Voltando para a seleção de dificuldade...");
+                        mesmaPartida = false;
+                        escolhaDificuldade = false; 
+                    } else {
+                        System.out.println("Opção inválida, voltando ao Menu Inicial por padrão.");
+                        mesmaPartida = false;
+                        escolhaDificuldade = false;
+                    }
+                }
+            }
+        }
     }
 }

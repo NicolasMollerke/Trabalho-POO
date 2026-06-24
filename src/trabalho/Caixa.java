@@ -19,10 +19,8 @@ public class Caixa extends Elemento{
     public Caixa (int i, int j) {
         super(i, j);
         
-        this.armaDisponivel = true;
         this.bastaoDisponivel = true;
         this.kitDisponivel = true;
-        this.dinossauroDisponivel = true;
     }
     
     public String getSimbolo() { 
@@ -33,34 +31,24 @@ public class Caixa extends Elemento{
         Random gerador = new Random();
         
         while (true) {
-            int item = gerador.nextInt(4) + 1;
-        
+            int item = gerador.nextInt(3) + 1;
+
             if (item == 1) {
-                if (armaDisponivel) {
-                    armaDisponivel = false;
-                    return new Arma(this.linha, this.coluna);
-                }
-            }
-            
-            if (item == 2) {
                 if (bastaoDisponivel) {
                     bastaoDisponivel = false;
                     return new Bastao(this.linha, this.coluna);
                 }
             }
             
-            if (item == 3) {
+            if (item == 2) {
                 if (kitDisponivel) {
                     kitDisponivel = false;
                     return new Kit(this.linha, this.coluna);
                 }
             }
             
-            if (item == 4) {
-                if (dinossauroDisponivel) {
-                    dinossauroDisponivel = false;
-                    return new Compsognato(this.linha, this.coluna);
-                }
+            if (item == 3) {
+                return new Arma(this.linha, this.coluna);
             }
         }
     }

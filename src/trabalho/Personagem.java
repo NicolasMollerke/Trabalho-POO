@@ -4,6 +4,7 @@
  */
 package trabalho;
 
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -30,9 +31,48 @@ public class Personagem extends Elemento implements Movel{
         return "P"; 
     }
     
+    public boolean estaVivo () {
+        return saude > 0;
+    }
+    
+    public boolean verificaBastao () {
+        return bastao != null;
+    }
+    
+    public boolean verificaArma () {
+        return arma != null;
+    }
+    
+    public boolean verificaKit () {
+        return kit != null;
+    }
+    
+    public Arma getArma () {
+        return arma;
+    }
+    
+    public int getPercecao() {
+        return percepcao;
+    }
+    
+    public int getSaude() {
+        return saude;
+    }
+    
     public void  setPosicao(int i, int j){
         super.linha = i;
         super.coluna = j;
+    }
+    
+    public void levarDano(int dano) {
+        Random gerador = new Random();
+        int dado = gerador.nextInt(3) + 1;
+        
+        if (dado <= percepcao) {
+            System.out.println("Você desviou do ataque!");
+        } else {
+            this.saude = this.saude - dano;
+        }
     }
     
     public void mover(Tabuleiro tabuleiro) {
@@ -81,7 +121,7 @@ public class Personagem extends Elemento implements Movel{
                     this.coluna = colunaNova;
                         
                     mover = true;
-                }else if (destino instanceof Caixa) {
+                } else if (destino instanceof Caixa) {
                     System.out.println("\n[!] Você pisou em uma caixa de suprimentos 'X'!");
                 
                     Caixa caixa = (Caixa) destino;
@@ -95,8 +135,22 @@ public class Personagem extends Elemento implements Movel{
                         mover = true;
                     } else {
                         if (itemSurpresa instanceof Arma) {
-                            this.arma = (Arma) itemSurpresa;
-                            System.out.println("Parabéns! Você adquiriu uma Arma de Dardos!");
+                            if (arma == null){
+                                this.arma = (Arma) itemSurpresa;
+                                System.out.println("Parabéns! Você adquiriu uma Arma de Dardos!");
+                            } else if (arma != null) {
+                                arma.ganhaMunicao();
+                            }
+                            
+                            Compsognato compso = new Compsognato(linhaNova, colunaNova);
+                            tabuleiro.adicionaDinossauro();
+                            matriz[linhaNova][colunaNova] = compso;
+                            
+                            Combate combate = new Combate(this, compso);
+                            combate.iniciadoPorDinossauro(tabuleiro);
+                            
+                            mover = true;
+                            continue;
                         }
                         if (itemSurpresa instanceof Bastao){
                             this.bastao = (Bastao) itemSurpresa;
@@ -115,6 +169,14 @@ public class Personagem extends Elemento implements Movel{
                         
                         mover = true;
                     }   
+                }else if (destino instanceof Dinossauro){
+                    Dinossauro dinossauro = (Dinossauro) destino;
+                   
+                    Combate combate = new Combate (this, dinossauro);
+                    
+                    combate.iniciadoPorJogador(tabuleiro);
+
+
                 }
                 else {
                     System.out.println("Caminho bloqueado por uma parede!");
@@ -122,6 +184,15 @@ public class Personagem extends Elemento implements Movel{
             } else {
                 System.out.println("Limite do mapa atingido");
             }
+        }
+    }
+    
+    public void usarKit () {
+        if (kit == null) {
+            System.out.println("Você Kits Médicos");
+        } else {
+            this.saude += 1;
+            System.out.println("Você Recuperou 1 de vida!");
         }
     }
 }

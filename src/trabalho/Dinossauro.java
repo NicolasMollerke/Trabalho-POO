@@ -10,11 +10,14 @@ package trabalho;
  */
 public abstract class Dinossauro extends Elemento{
     private int saude;
-
     
     public Dinossauro(int saude, int i, int j){
         super(i, j);
         this.saude = saude;
+    }
+    
+    public void levarDano (int dano) {
+        saude = saude - dano;
     }
 
     public void receber(int dano) {
@@ -25,16 +28,12 @@ public abstract class Dinossauro extends Elemento{
         return this.saude > 0;
     }
 
-    public int getDanoAtaque(){
+    public int getSaude() {
+        return saude;
+    }
+    
+    public int atacar(Personagem personagem) {
         return 1;
-    }
-
-    public boolean podeSerAtingidoPorDardo(){
-        return true;
-    }
-
-    public boolean podeSerAtingidoPorMaoNua(){
-        return true;
     }
 
 }
