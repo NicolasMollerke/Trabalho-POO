@@ -57,6 +57,8 @@ public class Trodonte extends Dinossauro{
                         mover = true;
                 }            
             }
+            
+            tentativa++;
         }
     }
     
