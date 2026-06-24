@@ -11,7 +11,7 @@ public class Tabuleiro {
     private boolean debug;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
-        this.tamanho = 10; 
+        this.tamanho = 20; 
         this.matriz = new Elemento[tamanho][tamanho]; 
         this.personagem = personagem;
         
@@ -58,7 +58,7 @@ public class Tabuleiro {
                                 this.matriz[i][j] = new Compsognato(i, j);
                                 break;
                             case "X":
-                                this.matriz[i][j] = new Kit(i, j);
+                                this.matriz[i][j] = new Caixa(i, j);
                                 break;
                             case "R":
                                 this.matriz[i][j] = new Rex(i, j);
@@ -83,7 +83,7 @@ public class Tabuleiro {
         boolean visivel[][] = this.campoDeVisao(x, y);
         
         System.out.print("  ");
-        for (int col = 1; col <= 10; col++) System.out.print(col + " ");
+        for (int col = 1; col <= tamanho; col++) System.out.print(col + " ");
         System.out.println();
         
         if (!debug) {
