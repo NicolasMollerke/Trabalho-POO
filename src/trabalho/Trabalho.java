@@ -60,9 +60,14 @@ public class Trabalho {
             
             switch (opcao) {
                 case 1: 
-                    personagem.moverJogador(tabuleiro);
-                    tabuleiro.moverDinossauros();
-                    break;
+                        System.out.println("[DEBUG MAIN] Iniciando moverJogador...");
+                        personagem.mover(tabuleiro);
+                        System.out.println("[DEBUG MAIN] Jogador moveu com sucesso!");
+
+                        System.out.println("[DEBUG MAIN] Iniciando moverDinossauros...");
+                        tabuleiro.moverDinossauros();
+                        System.out.println("[DEBUG MAIN] Dinossauros moveram com sucesso!"); // Se não printar isso, o erro está aqui!
+                        break;
                 case 3:
                     tabuleiro.ativarDebug();
                     break;

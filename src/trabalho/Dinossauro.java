@@ -17,8 +17,6 @@ public abstract class Dinossauro extends Elemento{
         this.saude = saude;
     }
 
-    public abstract void mover(Tabuleiro tabuleiro, Personagem personagem);
-
     public void receber(int dano) {
         this.saude -= dano;
     }

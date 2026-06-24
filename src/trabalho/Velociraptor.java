@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author nicol
  */
-public class Velociraptor extends Dinossauro{
+public class Velociraptor extends Dinossauro implements Movel{
     public Velociraptor (int i, int j) {
         super(2, i, j);
     }

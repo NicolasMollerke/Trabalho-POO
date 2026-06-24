@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author nicol
  */
-public class Compsognato extends Dinossauro{
+public class Compsognato extends Dinossauro implements Movel{
     public Compsognato (int i, int j) {
         super(1, i, j);
     }

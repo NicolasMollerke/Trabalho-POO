@@ -170,8 +170,9 @@ public class Tabuleiro {
                 if (atual instanceof Dinossauro) {
                     Dinossauro dinossauro = (Dinossauro) atual;
                     
-                    if(!movidos.contains(dinossauro)) {
-                        dinossauro.mover(this);
+                    if(!movidos.contains(dinossauro) && dinossauro instanceof  Movel) {
+                        Movel dinoMovel = (Movel) dinossauro; //objeto real que está aqui dentro implementa a interface Movel
+                        dinoMovel.mover(this);
                         
                         movidos.add(dinossauro);
                     }

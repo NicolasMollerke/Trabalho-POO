@@ -8,7 +8,7 @@ package trabalho;
  *
  * @author nicol
  */
-public class Trodonte extends Dinossauro{
+public class Trodonte extends Dinossauro implements Movel{
     public Trodonte (int i, int j) {
         super(2, i, j);
     }

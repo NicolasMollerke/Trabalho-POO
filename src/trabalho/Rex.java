@@ -20,11 +20,6 @@ public class Rex extends Dinossauro{
     public boolean podeSerAtingidoPorMaoNua(){
         return false;
     }
-
-    @Override
-    public void mover(Tabuleiro tabuleiro, Personagem personagem){
-
-    }
     
     public String getSimbolo() { 
         return "R"; 
