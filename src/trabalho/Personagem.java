@@ -189,9 +189,10 @@ public class Personagem extends Elemento implements Movel{
     
     public void usarKit () {
         if (kit == null) {
-            System.out.println("Você Kits Médicos");
+            System.out.println("Você não possui Kits Médicos");
         } else {
             this.saude += 1;
+            this.kit = null;
             System.out.println("Você Recuperou 1 de vida!");
         }
     }
