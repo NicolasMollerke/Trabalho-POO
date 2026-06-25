@@ -196,5 +196,12 @@ public class Personagem extends Elemento implements Movel{
             System.out.println("Você Recuperou 1 de vida!");
         }
     }
+    
+    public void restaurarPersonagem() {
+        this.saude = 5;
+        this.arma = null;
+        this.bastao = null;
+        this.kit = null;
+    }
 }
     
