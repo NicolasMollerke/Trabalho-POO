@@ -127,7 +127,7 @@ public class Combate {
             if (dado == 6) {
                 System.out.println("Você deu um golpe crítico! O dinossauro recebeu 2 de dano!");
                 dinossauro.levarDano(2);
-            } if (dado == 1 || dado == 2) {
+            } else if (dado == 1 || dado == 2) {
                 System.out.println("Você errou o ataque!");
             } else {
                 if (dinossauro instanceof Trodonte) {
