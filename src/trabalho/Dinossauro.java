@@ -20,10 +20,6 @@ public abstract class Dinossauro extends Elemento{
         saude = saude - dano;
     }
 
-    public void receber(int dano) {
-        this.saude -= dano;
-    }
-
     public boolean estaVivo(){
         return this.saude > 0;
     }

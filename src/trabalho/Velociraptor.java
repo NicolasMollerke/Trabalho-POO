@@ -15,10 +15,6 @@ public class Velociraptor extends Dinossauro implements Movel{
         super(2, i, j);
     }
 
-    public boolean podeSerAtingidoPorDardo(){
-        return false;
-    }
-
     public void mover(Tabuleiro tabuleiro){
         Random gerador = new Random();
         Elemento[][] matriz = tabuleiro.getMatriz();
