@@ -101,7 +101,7 @@ public class Tabuleiro {
         boolean visivel[][] = this.campoDeVisao(x, y);
         
         System.out.print("  ");
-        for (int col = 1; col <= tamanho; col++) System.out.print(col + " ");
+        for (int col = 1; col <= tamanho; col++) System.out.printf("%-3d", col);
         System.out.println();
         
         if (!debug) {
@@ -112,11 +112,11 @@ public class Tabuleiro {
                     Elemento atual = this.matriz[i][j];
 
                     if (atual == null && visivel[i][j]) {
-                        System.out.print(". "); 
+                        System.out.printf("%-3s", "."); 
                     } else if (atual != null && visivel[i][j]) {
-                       System.out.print(atual.getSimbolo() + " ");
+                      System.out.printf("%-3s", atual.getSimbolo());
                     } else {
-                        System.out.print("? "); 
+                        System.out.printf("%-3s", "?"); 
                     }
                 }
                 System.out.println();
@@ -205,4 +205,7 @@ public class Tabuleiro {
         this.debug = true;
     }
     
+    public void desativarDebug() {
+        this.debug = false;
+    }
 }

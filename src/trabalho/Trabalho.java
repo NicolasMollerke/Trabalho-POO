@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package trabalho;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -67,8 +68,22 @@ public class Trabalho {
                 
                 boolean mesmaPartida = true;
                 
-                while (mesmaPartida) {
-                    Tabuleiro tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
+                Random gerador = new Random();
+                    
+                int random = gerador.nextInt(3) + 1;
+                
+                
+                while (mesmaPartida) {      
+                    Tabuleiro tabuleiro;               
+
+                    if (random == 1) {
+                        tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
+                    } else if (random == 2) {
+                        tabuleiro = new Tabuleiro("tabuleiro.txt2", personagem);
+                    } else {
+                        tabuleiro = new Tabuleiro("tabuleiro.txt3", personagem);
+                    }
+                    
                     int opcao;
                     
                     do {
@@ -114,6 +129,7 @@ public class Trabalho {
                     if (escolhaFim == 1) {
                         System.out.println("🔄 Reiniciando com as posições iniciais...");
                         personagem.restaurarPersonagem();
+                        tabuleiro.desativarDebug();
                     } else if (escolhaFim == 2) {
                         System.out.println("🔄Voltando para a seleção de dificuldade...");
                         mesmaPartida = false;
