@@ -12,8 +12,8 @@ public class Arma extends Elemento{
     private int municao;
     
     public Arma(int i, int j) {
-        this.municao = 1;
         super(i, j);
+        this.municao = 1;
     }
     
     public String getSimbolo() { 
