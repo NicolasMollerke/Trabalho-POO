@@ -100,7 +100,7 @@ public class Tabuleiro {
         int y = personagem.coluna;
         boolean visivel[][] = this.campoDeVisao(x, y);
         
-        System.out.print("  ");
+        System.out.print("   ");
         for (int col = 1; col <= tamanho; col++) System.out.printf("%-3d", col);
         System.out.println();
         
