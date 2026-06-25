@@ -16,9 +16,9 @@ public class Trabalho {
      */
     public static void main(String[] args) {        
         Scanner teclado = new Scanner(System.in);
-        boolean appRodando = true;
+        boolean jogoRodando = true;
         
-        while (appRodando) {
+        while (jogoRodando) {
             System.out.println("===== MENU INICIAL =====");
             System.out.println("1. Jogar");
             System.out.println("2. Sair");
@@ -27,7 +27,7 @@ public class Trabalho {
             
             if (menuInicial == 2) {
                 System.out.println("Saindo do jogo... Até mais!");
-                appRodando = false;
+                jogoRodando = false;
                 break;
             } else if (menuInicial != 1) {
                 System.out.println("Opção inválida!");
@@ -37,7 +37,6 @@ public class Trabalho {
             boolean escolhaDificuldade = true;
             
             while (escolhaDificuldade) {
-                // --- 2. ESCOLHA DE DIFICULDADE (Novo jogo volta para cá) ---
                 System.out.println("Ecolha sua dificuldade:");
                 System.out.println("1.Facil");
                 System.out.println("2.Medio");
@@ -114,6 +113,7 @@ public class Trabalho {
                     
                     if (escolhaFim == 1) {
                         System.out.println("🔄 Reiniciando com as posições iniciais...");
+                        personagem.restaurarPersonagem();
                     } else if (escolhaFim == 2) {
                         System.out.println("🔄Voltando para a seleção de dificuldade...");
                         mesmaPartida = false;
