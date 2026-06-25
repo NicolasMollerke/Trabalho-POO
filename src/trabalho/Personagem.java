@@ -175,6 +175,7 @@ public class Personagem extends Elemento implements Movel{
                     Combate combate = new Combate (this, dinossauro);
                     
                     combate.iniciadoPorJogador(tabuleiro);
+                    mover = true;
 
 
                 }
@@ -202,6 +203,7 @@ public class Personagem extends Elemento implements Movel{
         this.arma = null;
         this.bastao = null;
         this.kit = null;
+        this.setPosicao(0, 0);
     }
 }
     
