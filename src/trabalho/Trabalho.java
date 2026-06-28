@@ -74,15 +74,9 @@ public class Trabalho {
                 
                 
                 while (mesmaPartida) {      
-                    Tabuleiro tabuleiro;               
-
-                    if (random == 1) {
-                        tabuleiro = new Tabuleiro("tabuleiro.txt", personagem);
-                    } else if (random == 2) {
-                        tabuleiro = new Tabuleiro("tabuleiro.txt2", personagem);
-                    } else {
-                        tabuleiro = new Tabuleiro("tabuleiro.txt3", personagem);
-                    }
+                    Tabuleiro tabuleiro;      
+                    
+                    tabuleiro = new Tabuleiro ("tabuleiro" + random + ".txt", personagem);
                     
                     int opcao;
                     
