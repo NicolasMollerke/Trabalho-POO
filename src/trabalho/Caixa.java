@@ -28,6 +28,10 @@ public class Caixa extends Elemento{
     public Elemento abrirCaixa() {
         Random gerador = new Random();
         
+        if (!bastaoDisponivel && !kitDisponivel) {
+            return new Arma(this.linha, this.coluna);
+        }
+        
         while (true) {
             int item = gerador.nextInt(3) + 1;
 
@@ -36,12 +40,12 @@ public class Caixa extends Elemento{
                     bastaoDisponivel = false;
                     return new Bastao(this.linha, this.coluna);
                 }
-            }else if (item == 2) {
+            } else if (item == 2) {
                 if (kitDisponivel) {
                     kitDisponivel = false;
                     return new Kit(this.linha, this.coluna);
                 }
-            } else
+            } else {
                 return new Arma(this.linha, this.coluna);
             }
         }
