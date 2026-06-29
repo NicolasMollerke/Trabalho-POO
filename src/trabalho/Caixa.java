@@ -11,10 +11,8 @@ import java.util.Random;
  * @author nicol
  */
 public class Caixa extends Elemento{
-    private boolean armaDisponivel;
     private boolean bastaoDisponivel;
     private boolean kitDisponivel;
-    private boolean dinossauroDisponivel;
     
     public Caixa (int i, int j) {
         super(i, j);
@@ -38,16 +36,12 @@ public class Caixa extends Elemento{
                     bastaoDisponivel = false;
                     return new Bastao(this.linha, this.coluna);
                 }
-            }
-            
-            if (item == 2) {
+            }else if (item == 2) {
                 if (kitDisponivel) {
                     kitDisponivel = false;
                     return new Kit(this.linha, this.coluna);
                 }
-            }
-            
-            if (item == 3) {
+            } else
                 return new Arma(this.linha, this.coluna);
             }
         }

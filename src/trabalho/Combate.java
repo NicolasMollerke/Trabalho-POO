@@ -44,7 +44,7 @@ public class Combate {
             } else if (opcao == 2) {
                 int armaEscolhida = 0;
                 
-                if (bastao && arma) {
+                if (bastao && arma && personagem.getArma().getMunicao() > 0) {
                     System.out.println("Selecione sua arma");
                     System.out.println("1. Bastão Elétrico");
                     System.out.println("2. Arma de Dardos");

@@ -135,11 +135,11 @@ public class Personagem extends Elemento implements Movel{
                         mover = true;
                     } else {
                         if (itemSurpresa instanceof Arma) {
-                            if (arma == null){
+                            if (this.arma == null){
                                 this.arma = (Arma) itemSurpresa;
                                 System.out.println("Parabéns! Você adquiriu uma Arma de Dardos!");
-                            } else if (arma != null) {
-                                arma.ganhaMunicao();
+                            } else if (this.arma != null) {
+                                this.arma.ganhaMunicao();
                             }
                             
                             Compsognato compso = new Compsognato(linhaNova, colunaNova);
@@ -150,22 +150,23 @@ public class Personagem extends Elemento implements Movel{
                             combate.iniciadoPorDinossauro(tabuleiro);
                             
                             mover = true;
-                            continue;
-                        }
-                        if (itemSurpresa instanceof Bastao){
+                        } else if (itemSurpresa instanceof Bastao){
                             this.bastao = (Bastao) itemSurpresa;
                             System.out.println("Parabéns! Você adquiriu um Bastão de Choque");
-                        } 
-                        if (itemSurpresa instanceof Kit){
+                            matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
+                            matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
+
+                            this.linha = linhaNova;
+                            this.coluna = colunaNova;
+                        }else if (itemSurpresa instanceof Kit){
                             this.kit = (Kit) itemSurpresa;
                             System.out.println("Parabéns! Você adquiriu um Kit Médico");
+                            matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
+                            matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
+
+                            this.linha = linhaNova;
+                            this.coluna = colunaNova;
                         }
-                        
-                        matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
-                        matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
-                        
-                        this.linha = linhaNova;
-                        this.coluna = colunaNova;
                         
                         mover = true;
                     }   
@@ -191,6 +192,8 @@ public class Personagem extends Elemento implements Movel{
     public void usarKit () {
         if (kit == null) {
             System.out.println("Você não possui Kits Médicos");
+        } else if (this.saude == 5) {
+            System.out.println("Você já possui saude maxima");
         } else {
             this.saude += 1;
             this.kit = null;
