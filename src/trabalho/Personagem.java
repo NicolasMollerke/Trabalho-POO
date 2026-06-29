@@ -140,6 +140,7 @@ public class Personagem extends Elemento implements Movel{
                                 System.out.println("Parabéns! Você adquiriu uma Arma de Dardos!");
                             } else if (this.arma != null) {
                                 this.arma.ganhaMunicao();
+                                System.out.println("Parabéns! Você adquiriu municao para sua Arma!");
                             }
                             
                             Compsognato compso = new Compsognato(linhaNova, colunaNova);

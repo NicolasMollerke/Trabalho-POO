@@ -57,8 +57,10 @@ public class Combate {
                     System.out.println("3. Atacar com as Mãos (Soco)");
 
                     armaEscolhida = teclado.nextInt();
+                            
                 } 
                 else if (bastao) {
+                    System.out.println("[!] Você tem um bastao! Use ele para atacar!");
                     armaEscolhida = 1;
                 } 
                 else {
@@ -104,6 +106,7 @@ public class Combate {
             dinossauro.levarDano(2);
         } else {
             dinossauro.levarDano(1);
+            System.out.println("Você acertou o ataque! O dinossauro recebeu 1 de dano!");
         } 
     }
     
@@ -113,6 +116,7 @@ public class Combate {
                  System.out.println("Velociraptor desviou do ataque!");
             } else {
                 dinossauro.levarDano(2);
+                System.out.println("Você acertou o dardo! O dinossauro recebeu 2 de dano!");
             }
             personagem.getArma().gastarMunicao();
         }
