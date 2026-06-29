@@ -51,7 +51,7 @@ public class Combate {
 
                     armaEscolhida = teclado.nextInt();
                 } 
-                else if (arma) {
+                else if (arma && personagem.getArma().getMunicao() > 0) {
                     System.out.println("Selecione sua ação de ataque");
                     System.out.println("2. Arma de Dardos");
                     System.out.println("3. Atacar com as Mãos (Soco)");

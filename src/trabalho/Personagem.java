@@ -126,7 +126,7 @@ public class Personagem extends Elemento implements Movel{
                 
                     Caixa caixa = (Caixa) destino;
                 
-                    Elemento itemSurpresa = caixa.abrirCaixa();
+                    Elemento itemSurpresa = caixa.abrirCaixa(tabuleiro);
                 
                     if (itemSurpresa instanceof Dinossauro) {
                         System.out.println("Cuidado, um Compsognato saiu da caixa!");

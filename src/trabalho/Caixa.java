@@ -25,29 +25,15 @@ public class Caixa extends Elemento{
         return "X"; 
     }
     
-    public Elemento abrirCaixa() {
-        Random gerador = new Random();
+    public Elemento abrirCaixa(Tabuleiro tabuleiro) {
+        String itemSorteado = tabuleiro.sortearItem();
         
-        if (!bastaoDisponivel && !kitDisponivel) {
+        if (itemSorteado.equals("bastao")) {
+            return new Bastao(this.linha, this.coluna);
+        } else if (itemSorteado.equals("kit")) {
+            return new Kit(this.linha, this.coluna);
+        } else {
             return new Arma(this.linha, this.coluna);
-        }
-        
-        while (true) {
-            int item = gerador.nextInt(3) + 1;
-
-            if (item == 1) {
-                if (bastaoDisponivel) {
-                    bastaoDisponivel = false;
-                    return new Bastao(this.linha, this.coluna);
-                }
-            } else if (item == 2) {
-                if (kitDisponivel) {
-                    kitDisponivel = false;
-                    return new Kit(this.linha, this.coluna);
-                }
-            } else {
-                return new Arma(this.linha, this.coluna);
-            }
         }
     }
 }

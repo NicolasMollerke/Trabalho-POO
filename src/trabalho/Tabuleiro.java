@@ -2,6 +2,8 @@ package trabalho;
 
 import java.io.File;
 import java.io.FileNotFoundException; // Import necessário para tratar erro de arquivo sumido
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Tabuleiro {
@@ -10,12 +12,21 @@ public class Tabuleiro {
     private Personagem personagem;
     private boolean debug;
     private int numDinossauros;
+    private ArrayList<String> itensCaixas;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
         this.tamanho = 20; 
         this.matriz = new Elemento[tamanho][tamanho]; 
         this.personagem = personagem;
         this.numDinossauros = 0;
+        
+        this.itensCaixas = new ArrayList<>();
+        this.itensCaixas.add("bastao");
+        this.itensCaixas.add("kit");
+        this.itensCaixas.add("arma");
+        this.itensCaixas.add("arma");
+        
+        Collections.shuffle(this.itensCaixas);
         
         this.lerTabuleiro(caminhoArquivo);
     }
@@ -199,6 +210,13 @@ public class Tabuleiro {
             }
         }
         
+    }
+    
+    public String sortearItem() {
+        if (this.itensCaixas.isEmpty()) {
+            return "arma"; 
+        }
+        return this.itensCaixas.remove(0); //pega o primeiro e o remove da lista, comoportamento de pilha
     }
     
     public void ativarDebug() {
