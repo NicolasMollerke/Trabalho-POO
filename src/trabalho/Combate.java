@@ -24,12 +24,12 @@ public class Combate {
         boolean combate = true;
         
         while (combate) {
-            System.out.println("O que você vai fazer?");
+            System.out.println("O que voce vai fazer?");
             int saudeJogador = personagem.getSaude();
             int saudeDinossauro = dinossauro.getSaude();
             
-            System.out.println("Saúde do Jogador: " + saudeJogador);
-            System.out.println("Saúde do Dinossauro: " + saudeDinossauro);
+            System.out.println("Saude do Jogador: " + saudeJogador);
+            System.out.println("Saude do Dinossauro: " + saudeDinossauro);
             
             System.out.println("1. Mover para outra casa");
             System.out.println("2. Lutar com Dinossauro");
@@ -46,15 +46,15 @@ public class Combate {
                 
                 if (bastao && arma && personagem.getArma().getMunicao() > 0) {
                     System.out.println("Selecione sua arma");
-                    System.out.println("1. Bastão Elétrico");
+                    System.out.println("1. Bastao Eletrico");
                     System.out.println("2. Arma de Dardos");
 
                     armaEscolhida = teclado.nextInt();
                 } 
                 else if (arma && personagem.getArma().getMunicao() > 0) {
-                    System.out.println("Selecione sua ação de ataque");
+                    System.out.println("Selecione sua açao de ataque");
                     System.out.println("2. Arma de Dardos");
-                    System.out.println("3. Atacar com as Mãos (Soco)");
+                    System.out.println("3. Atacar com as Maos (Soco)");
 
                     armaEscolhida = teclado.nextInt();
                             
@@ -64,7 +64,7 @@ public class Combate {
                     armaEscolhida = 1;
                 } 
                 else {
-                    System.out.println("[!] Você não tem armas! Vai ter que lutar no soco!");
+                    System.out.println("[!] Você nao tem armas! Vai ter que lutar no soco!");
                     armaEscolhida = 3;
                 }
                 
@@ -100,13 +100,13 @@ public class Combate {
         int dado = gerador.nextInt(6) + 1;
         
         if (dado == 1) {
-            System.out.println("Você errou o ataque");
+            System.out.println("Voce errou o ataque");
         } else if (dado == 5 || dado == 6) {
-            System.out.println("Você deu um golpe crítico! O dinossauro recebeu 2 de dano!");
+            System.out.println("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
             dinossauro.levarDano(2);
         } else {
             dinossauro.levarDano(1);
-            System.out.println("Você acertou o ataque! O dinossauro recebeu 1 de dano!");
+            System.out.println("Voce acertou o ataque! O dinossauro recebeu 1 de dano!");
         } 
     }
     
@@ -116,7 +116,7 @@ public class Combate {
                  System.out.println("Velociraptor desviou do ataque!");
             } else {
                 dinossauro.levarDano(2);
-                System.out.println("Você acertou o dardo! O dinossauro recebeu 2 de dano!");
+                System.out.println("Voce acertou o dardo! O dinossauro recebeu 2 de dano!");
             }
             personagem.getArma().gastarMunicao();
         }
@@ -129,25 +129,25 @@ public class Combate {
         
         if (!(dinossauro instanceof Rex)) {
             if (dado == 6) {
-                System.out.println("Você deu um golpe crítico! O dinossauro recebeu 2 de dano!");
+                System.out.println("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
                 dinossauro.levarDano(2);
             } else if (dado == 1 || dado == 2) {
-                System.out.println("Você errou o ataque!");
+                System.out.println("Voce errou o ataque!");
             } else {
                 if (dinossauro instanceof Trodonte) {
-                    System.out.println("Trodonte não levou dano!");
+                    System.out.println("Trodonte nao levou dano!");
                 } else {
                     System.out.println("O dinossauro recebeu 1 de dano!");
                     dinossauro.levarDano(1);
                 }
             }
         } else {
-            System.out.println("Rex não leva dano sem armas!");
+            System.out.println("Rex nao leva dano sem armas!");
         }      
     }
     
     public void iniciadoPorDinossauro (Tabuleiro tabuleiro) {
-        System.out.println("\n🚨! Um dinossauro atacou você de surpresa!");
+        System.out.println("\n🚨! Um dinossauro atacou voce de surpresa!");
         
         int dano = dinossauro.atacar(personagem);                     
         personagem.levarDano(dano);

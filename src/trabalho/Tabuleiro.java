@@ -102,7 +102,7 @@ public class Tabuleiro {
             scanner.close();
             
         } catch (FileNotFoundException e) {
-            System.out.println("Erro: Não foi possível encontrar o arquivo " + caminhoArquivo);
+            System.out.println("Erro: Nao foi possível encontrar o arquivo " + caminhoArquivo);
         }
     }
     

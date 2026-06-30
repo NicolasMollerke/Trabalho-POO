@@ -69,7 +69,7 @@ public class Personagem extends Elemento implements Movel{
         int dado = gerador.nextInt(3) + 1;
         
         if (dado <= percepcao) {
-            System.out.println("Você desviou do ataque!");
+            System.out.println("Voce desviou do ataque!");
         } else {
             this.saude = this.saude - dano;
         }
@@ -122,7 +122,7 @@ public class Personagem extends Elemento implements Movel{
                         
                     mover = true;
                 } else if (destino instanceof Caixa) {
-                    System.out.println("\n[!] Você pisou em uma caixa de suprimentos 'X'!");
+                    System.out.println("\n[!] Voce pisou em uma caixa de suprimentos 'X'!");
                 
                     Caixa caixa = (Caixa) destino;
                 
@@ -137,15 +137,17 @@ public class Personagem extends Elemento implements Movel{
                         if (itemSurpresa instanceof Arma) {
                             if (this.arma == null){
                                 this.arma = (Arma) itemSurpresa;
-                                System.out.println("Parabéns! Você adquiriu uma Arma de Dardos!");
+                                System.out.println("Parabens! Você adquiriu uma Arma de Dardos!");
                             } else if (this.arma != null) {
                                 this.arma.ganhaMunicao();
-                                System.out.println("Parabéns! Você adquiriu municao para sua Arma!");
+                                System.out.println("Parabens! Você adquiriu municao para sua Arma!");
                             }
                             
                             Compsognato compso = new Compsognato(linhaNova, colunaNova);
                             tabuleiro.adicionaDinossauro();
                             matriz[linhaNova][colunaNova] = compso;
+                            
+                            System.out.println("Um Compsognato supresa ataco voce!");
                             
                             Combate combate = new Combate(this, compso);
                             combate.iniciadoPorDinossauro(tabuleiro);
@@ -153,7 +155,7 @@ public class Personagem extends Elemento implements Movel{
                             mover = true;
                         } else if (itemSurpresa instanceof Bastao){
                             this.bastao = (Bastao) itemSurpresa;
-                            System.out.println("Parabéns! Você adquiriu um Bastão de Choque");
+                            System.out.println("Parabens! Voce adquiriu um Bastao de Choque");
                             matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
                             matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
 
@@ -161,7 +163,7 @@ public class Personagem extends Elemento implements Movel{
                             this.coluna = colunaNova;
                         }else if (itemSurpresa instanceof Kit){
                             this.kit = (Kit) itemSurpresa;
-                            System.out.println("Parabéns! Você adquiriu um Kit Médico");
+                            System.out.println("Parabens! Você adquiriu um Kit Medico");
                             matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
                             matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
 
@@ -192,9 +194,9 @@ public class Personagem extends Elemento implements Movel{
     
     public void usarKit () {
         if (kit == null) {
-            System.out.println("Você não possui Kits Médicos");
+            System.out.println("Você nao possui Kits Medicos");
         } else if (this.saude == 5) {
-            System.out.println("Você já possui saude maxima");
+            System.out.println("Você ja possui saude maxima");
         } else {
             this.saude += 1;
             this.kit = null;

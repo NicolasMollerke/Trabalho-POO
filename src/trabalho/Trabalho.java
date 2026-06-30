@@ -27,11 +27,11 @@ public class Trabalho {
             int menuInicial = teclado.nextInt();
             
             if (menuInicial == 2) {
-                System.out.println("Saindo do jogo... Até mais!");
+                System.out.println("Saindo do jogo... Ate mais!");
                 jogoRodando = false;
                 break;
             } else if (menuInicial != 1) {
-                System.out.println("Opção inválida!");
+                System.out.println("Opção invalida!");
                 continue;
             }
             
@@ -61,7 +61,7 @@ public class Trabalho {
                         break;
                         
                     default:
-                        System.out.println("Opção inválida! Criando personagem com dificuldade padrão (2 vidas).");
+                        System.out.println("Opção invalida! Criando personagem com dificuldade padrao (2 vidas).");
                         personagem = new Personagem(2);
                         break;
                 }
@@ -103,12 +103,12 @@ public class Trabalho {
                         }
                         
                         if (!(personagem.estaVivo())) {
-                            System.out.println("Seu personagem morreu! Você perdeu o jogo");
+                            System.out.println("Seu personagem morreu! Voce perdeu o jogo");
                             opcao = 4;
                         } 
                         
                         if (tabuleiro.semDinossauros()) {
-                            System.out.println("Todos dinossauros derrotados, você venceu!");
+                            System.out.println("Todos dinossauros derrotados, voce venceu!");
                             opcao = 4;
                         }
                         
@@ -121,15 +121,15 @@ public class Trabalho {
                     int escolhaFim = teclado.nextInt();
                     
                     if (escolhaFim == 1) {
-                        System.out.println("🔄 Reiniciando com as posições iniciais...");
+                        System.out.println("🔄 Reiniciando com as posicoes iniciais...");
                         personagem.restaurarPersonagem();
                         tabuleiro.desativarDebug();
                     } else if (escolhaFim == 2) {
-                        System.out.println("🔄Voltando para a seleção de dificuldade...");
+                        System.out.println("🔄Voltando para a selecao de dificuldade...");
                         mesmaPartida = false;
                         escolhaDificuldade = false; 
                     } else {
-                        System.out.println("Opção inválida, voltando ao Menu Inicial por padrão.");
+                        System.out.println("Opçao invalida, voltando ao Menu Inicial por padrao.");
                         mesmaPartida = false;
                         escolhaDificuldade = false;
                     }
