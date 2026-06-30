@@ -219,6 +219,10 @@ public class Tabuleiro {
         return this.itensCaixas.remove(0); //pega o primeiro e o remove da lista, comoportamento de pilha
     }
     
+    public boolean getDebug () {
+        return debug;
+    }
+    
     public void ativarDebug() {
         this.debug = true;
     }

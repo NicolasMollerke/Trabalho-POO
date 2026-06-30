@@ -98,7 +98,11 @@ public class Trabalho {
                                 personagem.usarKit();
                                 break;
                             case 3:
-                                tabuleiro.ativarDebug();
+                                if (!tabuleiro.getDebug())
+                                        tabuleiro.ativarDebug();
+                                else {
+                                    tabuleiro.desativarDebug();
+                                }
                                 break;
                         }
                         
