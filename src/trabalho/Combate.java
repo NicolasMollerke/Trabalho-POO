@@ -60,11 +60,11 @@ public class Combate {
                             
                 } 
                 else if (bastao) {
-                    System.out.println("[!] Você tem um bastao! Use ele para atacar!");
+                    System.out.println("[!] Voce tem um bastao! Use ele para atacar!");
                     armaEscolhida = 1;
                 } 
                 else {
-                    System.out.println("[!] Você nao tem armas! Vai ter que lutar no soco!");
+                    System.out.println("[!] Voce nao tem armas! Vai ter que lutar no soco!");
                     armaEscolhida = 3;
                 }
                 

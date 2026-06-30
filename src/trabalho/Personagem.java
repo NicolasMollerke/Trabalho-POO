@@ -137,17 +137,17 @@ public class Personagem extends Elemento implements Movel{
                         if (itemSurpresa instanceof Arma) {
                             if (this.arma == null){
                                 this.arma = (Arma) itemSurpresa;
-                                System.out.println("Parabens! Você adquiriu uma Arma de Dardos!");
+                                System.out.println("Parabens! Voce adquiriu uma Arma de Dardos!");
                             } else if (this.arma != null) {
                                 this.arma.ganhaMunicao();
-                                System.out.println("Parabens! Você adquiriu municao para sua Arma!");
+                                System.out.println("Parabens! Voce adquiriu municao para sua Arma!");
                             }
                             
                             Compsognato compso = new Compsognato(linhaNova, colunaNova);
                             tabuleiro.adicionaDinossauro();
                             matriz[linhaNova][colunaNova] = compso;
                             
-                            System.out.println("Um Compsognato supresa ataco voce!");
+                            System.out.println("Um Compsognato surpresa ataco voce!");
                             
                             Combate combate = new Combate(this, compso);
                             combate.iniciadoPorDinossauro(tabuleiro);
@@ -177,6 +177,8 @@ public class Personagem extends Elemento implements Movel{
                     Dinossauro dinossauro = (Dinossauro) destino;
                    
                     Combate combate = new Combate (this, dinossauro);
+                    
+                    System.out.println("Voce iniciou um combate com um dinossauro!");
                     
                     combate.iniciadoPorJogador(tabuleiro);
                     mover = true;
