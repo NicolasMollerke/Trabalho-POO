@@ -8,14 +8,6 @@ package trabalho;
  *
  * @author nicol
  */
-public abstract class Elemento {
-    protected int linha;
-    protected int coluna;
+public class Item {
     
-    public abstract String getSimbolo();
-    
-    public Elemento (int i, int j) {
-        linha = i;
-        coluna = j;
-    }
 }

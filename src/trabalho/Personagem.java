@@ -11,20 +11,16 @@ import java.util.Scanner;
  *
  * @author nicol
  */
-public class Personagem extends Elemento implements Movel{
+public class Personagem extends ElementoDinamico implements Movel{
     private int percepcao;
     private int saude;
-    private Arma arma;
-    private Bastao bastao;
-    private Kit kit;
+    private Inventario inventario;
     
     public Personagem (int percepcao) {
         super(0,0);
         this.percepcao = percepcao;
         this.saude = 5;
-        this.arma = null;
-        this.bastao = null;
-        this.kit = null;
+        this.inventario = new Inventario();
     }
     
     public String getSimbolo() { 
@@ -34,21 +30,9 @@ public class Personagem extends Elemento implements Movel{
     public boolean estaVivo () {
         return saude > 0;
     }
-    
-    public boolean verificaBastao () {
-        return bastao != null;
-    }
-    
-    public boolean verificaArma () {
-        return arma != null;
-    }
-    
-    public boolean verificaKit () {
-        return kit != null;
-    }
-    
-    public Arma getArma () {
-        return arma;
+   
+    public Inventario getInventario () {
+        return inventario;
     }
     
     public int getPercecao() {
@@ -57,11 +41,6 @@ public class Personagem extends Elemento implements Movel{
     
     public int getSaude() {
         return saude;
-    }
-    
-    public void  setPosicao(int i, int j){
-        super.linha = i;
-        super.coluna = j;
     }
     
     public void levarDano(int dano) {
@@ -75,142 +54,86 @@ public class Personagem extends Elemento implements Movel{
         }
     }
     
-    public void mover(Tabuleiro tabuleiro) {
+    public int[] mover() {
+        int[] coordenadas = new int[2]; 
+        
         Scanner teclado = new Scanner(System.in);
-        Elemento[][] matriz = tabuleiro.getMatriz();
-        boolean mover = false;
-            
-        while (!mover) {    
 
-            System.out.println("Para onde voce quer se mover?");
-            System.out.println("1.^ Cima");
-            System.out.println("2.< Esquerda");
-            System.out.println("3.> Direita");
-            System.out.println("4.v Baixo"); 
-            
-            int direcao = teclado.nextInt();
-            
-            int linhaNova = this.linha;
-            int colunaNova = this.coluna;
-                
-            switch (direcao) {
-                case 1:
-                    linhaNova--; //Cima
-                    break;
-                case 2:
-                    colunaNova--; // Esquerda
-                    break;
-                case 3:
-                    colunaNova++; // Direita
-                    break;
-                case 4:
-                    linhaNova++;  // Baixo
-                    break;
-                default:
-                    break;
-            }
-                
-            if (linhaNova >= 0 && linhaNova < tabuleiro.getTamanho() && colunaNova >=0 && colunaNova < tabuleiro.getTamanho()){
-                Elemento destino = matriz[linhaNova][colunaNova];
-                
-                if (destino == null) {
-                    matriz[this.linha][this.coluna] = null;
-                    matriz[linhaNova][colunaNova] = this;
-                        
-                    this.linha = linhaNova;
-                    this.coluna = colunaNova;
-                        
-                    mover = true;
-                } else if (destino instanceof Caixa) {
-                    System.out.println("\n[!] Voce pisou em uma caixa de suprimentos 'X'!");
-                
-                    Caixa caixa = (Caixa) destino;
-                
-                    Elemento itemSurpresa = caixa.abrirCaixa(tabuleiro);
-                
-                    if (itemSurpresa instanceof Dinossauro) {
-                        System.out.println("Cuidado, um Compsognato saiu da caixa!");
-                        matriz[linhaNova][colunaNova] = itemSurpresa;
-                        
-                        mover = true;
-                    } else {
-                        if (itemSurpresa instanceof Arma) {
-                            if (this.arma == null){
-                                this.arma = (Arma) itemSurpresa;
-                                System.out.println("Parabens! Voce adquiriu uma Arma de Dardos!");
-                            } else if (this.arma != null) {
-                                this.arma.ganhaMunicao();
-                                System.out.println("Parabens! Voce adquiriu municao para sua Arma!");
-                            }
-                            
-                            Compsognato compso = new Compsognato(linhaNova, colunaNova);
-                            tabuleiro.adicionaDinossauro();
-                            matriz[linhaNova][colunaNova] = compso;
-                            
-                            System.out.println("Um Compsognato surpresa ataco voce!");
-                            
-                            Combate combate = new Combate(this, compso);
-                            combate.iniciadoPorDinossauro(tabuleiro);
-                            
-                            mover = true;
-                        } else if (itemSurpresa instanceof Bastao){
-                            this.bastao = (Bastao) itemSurpresa;
-                            System.out.println("Parabens! Voce adquiriu um Bastao de Choque");
-                            matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
-                            matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
+        System.out.println("Para onde voce quer se mover?");
+        System.out.println("1.^ Cima");
+        System.out.println("2.< Esquerda");
+        System.out.println("3.> Direita");
+        System.out.println("4.v Baixo"); 
 
-                            this.linha = linhaNova;
-                            this.coluna = colunaNova;
-                        }else if (itemSurpresa instanceof Kit){
-                            this.kit = (Kit) itemSurpresa;
-                            System.out.println("Parabens! Você adquiriu um Kit Medico");
-                            matriz[this.linha][this.coluna] = null; // esvazia onde o P estava
-                            matriz[linhaNova][colunaNova] = this;   // coloca o P onde a caixa estava
+        int direcao = teclado.nextInt();
 
-                            this.linha = linhaNova;
-                            this.coluna = colunaNova;
-                        }
-                        
-                        mover = true;
-                    }   
-                }else if (destino instanceof Dinossauro){
-                    Dinossauro dinossauro = (Dinossauro) destino;
-                   
-                    Combate combate = new Combate (this, dinossauro);
-                    
-                    System.out.println("Voce iniciou um combate com um dinossauro!");
-                    
-                    combate.iniciadoPorJogador(tabuleiro);
-                    mover = true;
+        int linhaNova = this.linha;
+        int colunaNova = this.coluna;
 
-
-                }
-                else {
-                    System.out.println("Caminho bloqueado por uma parede!");
-                }
-            } else {
-                System.out.println("Limite do mapa atingido");
-            }
+        switch (direcao) {
+            case 1:
+                linhaNova--; // Cima
+                break;
+            case 2:
+                colunaNova--; // Esquerda
+                break;
+            case 3:
+                colunaNova++; // Direita
+                break;
+            case 4:
+                linhaNova++;  // Baixo
+                break;
+            default:
+                System.out.println("Opcao invalida!");
+                break;
         }
+        coordenadas[0] = linhaNova;
+        coordenadas[1] = colunaNova;
+        
+        return coordenadas;
     }
     
     public void usarKit () {
-        if (kit == null) {
-            System.out.println("Você nao possui Kits Medicos");
-        } else if (this.saude == 5) {
-            System.out.println("Você ja possui saude maxima");
+        if (inventario.getKit() != null) {
+        int cura = inventario.getKit().curar(this);
+        this.saude += cura;
+        System.out.println("Voce usou um Kit Medico e recuperou vida!");
+
         } else {
-            this.saude += 1;
-            this.kit = null;
-            System.out.println("Você Recuperou 1 de vida!");
+            System.out.println("\n[!] Voce nao possui nenhum Kit Medico no seu inventario!");
         }
+    }
+    
+    public int atacar(Dinossauro alvo) {
+        java.util.Random gerador = new java.util.Random();
+        int dado = gerador.nextInt(6) + 1;
+        int dano=0;
+        
+        if (!(alvo instanceof Rex)) {
+            if (dado == 6) {
+                System.out.println("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
+                dano = 2;
+            } else if (dado == 1 || dado == 2) {
+                System.out.println("Voce errou o ataque!");
+                dano = 0;
+            } else {
+                if (alvo instanceof Trodonte) {
+                    System.out.println("Trodonte nao levou dano!");
+                } else {
+                    System.out.println("O dinossauro recebeu 1 de dano!");
+                    dano = 1;
+                }
+            }
+        } else {
+            System.out.println("Rex nao leva dano sem armas!");
+        }      
+        
+        return dano;
     }
     
     public void restaurarPersonagem() {
         this.saude = 5;
-        this.arma = null;
-        this.bastao = null;
-        this.kit = null;
+        inventario.restauraInventario();
         this.setPosicao(0, 0);
     }
 }

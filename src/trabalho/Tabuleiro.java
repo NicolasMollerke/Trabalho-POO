@@ -74,7 +74,7 @@ public class Tabuleiro {
                                 this.matriz[i][j] = new Parede(i, j);
                                 break;
                             case "T":
-                                this.matriz[i][j] = new Trodonte(i, j);
+                                this.matriz[i][j] = new Trodonte(i, j, personagem);
                                 this.numDinossauros++;
                                 break;
                             case "V":
@@ -187,29 +187,6 @@ public class Tabuleiro {
         }
         
         return visivel;
-    }
-    
-    public void moverDinossauros () {
-        java.util.ArrayList<Dinossauro> movidos = new java.util.ArrayList<>();
-        
-        for (int i=0; i < tamanho; i++) {
-            for (int j=0; j < tamanho; j++) {
-                Elemento atual = this.matriz[i][j];
-                
-                if (atual instanceof Dinossauro) {
-                    Dinossauro dinossauro = (Dinossauro) atual;
-                    
-                    if(!movidos.contains(dinossauro) && dinossauro instanceof  Movel) {
-                        Movel dinoMovel = (Movel) dinossauro; //objeto real que está aqui dentro implementa a interface Movel
-                        dinoMovel.mover(this);
-                        
-                        movidos.add(dinossauro);
-                    }
-                }
-
-            }
-        }
-        
     }
     
     public String sortearItem() {

@@ -72,12 +72,15 @@ public class Trabalho {
                     
                 int random = gerador.nextInt(3) + 1;
                 
+                Tabuleiro tabuleiro;      
+                GerenciadorMovimento gerenciador;
+                    
+                tabuleiro = new Tabuleiro ("tabuleiro" + random + ".txt", personagem);
+                    
+                gerenciador = new GerenciadorMovimento(tabuleiro);
                 
-                while (mesmaPartida) {      
-                    Tabuleiro tabuleiro;      
-                    
-                    tabuleiro = new Tabuleiro ("tabuleiro" + random + ".txt", personagem);
-                    
+                
+                while (mesmaPartida) {                      
                     int opcao;
                     
                     do {
@@ -91,15 +94,15 @@ public class Trabalho {
                         
                         switch (opcao) {
                             case 1: 
-                                personagem.mover(tabuleiro);
-                                tabuleiro.moverDinossauros();
+                                gerenciador.moverJogador(personagem);
+                                gerenciador.moverDinossauros();
                                 break;
                             case 2:
                                 personagem.usarKit();
                                 break;
                             case 3:
                                 if (!tabuleiro.getDebug())
-                                        tabuleiro.ativarDebug();
+                                    tabuleiro.ativarDebug();
                                 else {
                                     tabuleiro.desativarDebug();
                                 }

@@ -11,29 +11,24 @@ import java.util.Random;
  * @author nicol
  */
 public class Caixa extends Elemento{
-    private boolean bastaoDisponivel;
-    private boolean kitDisponivel;
-    
+
     public Caixa (int i, int j) {
         super(i, j);
-        
-        this.bastaoDisponivel = true;
-        this.kitDisponivel = true;
     }
     
     public String getSimbolo() { 
         return "X"; 
     }
     
-    public Elemento abrirCaixa(Tabuleiro tabuleiro) {
+    public Item abrirCaixa(Tabuleiro tabuleiro) {
         String itemSorteado = tabuleiro.sortearItem();
         
         if (itemSorteado.equals("bastao")) {
-            return new Bastao(this.linha, this.coluna);
+            return new Bastao();
         } else if (itemSorteado.equals("kit")) {
-            return new Kit(this.linha, this.coluna);
+            return new Kit();
         } else {
-            return new Arma(this.linha, this.coluna);
+            return new Arma();
         }
     }
 }

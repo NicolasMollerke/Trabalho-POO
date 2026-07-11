@@ -15,38 +15,24 @@ public class Velociraptor extends Dinossauro implements Movel{
         super(2, i, j);
     }
 
-    public void mover(Tabuleiro tabuleiro){
+    public int[] mover(){
         Random gerador = new Random();
-        Elemento[][] matriz = tabuleiro.getMatriz();
+       
+        int direcao = gerador.nextInt(4) + 1;
+                
+        int linhaNova = this.linha;
+        int colunaNova = this.coluna;
+        int[] coordenadas = new int[2]; 
+                
+        if (direcao == 1) linhaNova--; //Cima
+        else if (direcao == 2) colunaNova--; // Esquerda
+        else if (direcao == 3) colunaNova++; // Direita
+        else if (direcao == 4) linhaNova++;  // Baixo
         
+        coordenadas[0] = linhaNova;
+        coordenadas[1] = colunaNova;
         
-        for (int i=0; i<2; i++) {
-            boolean mover = false;
-            
-            while (!mover) {
-                int direcao = gerador.nextInt(4) + 1;
-                
-                int linhaNova = this.linha;
-                int colunaNova = this.coluna;
-                
-                if (direcao == 1) linhaNova--; //Cima
-                else if (direcao == 2) colunaNova--; // Esquerda
-                else if (direcao == 3) colunaNova++; // Direita
-                else if (direcao == 4) linhaNova++;  // Baixo
-                
-                if (linhaNova >= 0 && linhaNova < tabuleiro.getTamanho() && colunaNova >=0 && colunaNova < tabuleiro.getTamanho()){
-                    if (matriz[linhaNova][colunaNova] == null) {
-                        matriz[this.linha][this.coluna] = null;
-                        matriz[linhaNova][colunaNova] = this;
-                        
-                        this.linha = linhaNova;
-                        this.coluna = colunaNova;
-                        
-                        mover = true;
-                    }
-                }
-            }
-        }
+        return coordenadas;
     }
     
     public int atacar(Personagem personagem) {

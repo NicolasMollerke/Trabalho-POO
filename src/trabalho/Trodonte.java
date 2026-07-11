@@ -9,25 +9,24 @@ package trabalho;
  * @author nicol
  */
 public class Trodonte extends Dinossauro implements Movel{
-    public Trodonte (int i, int j) {
+    private Personagem personagem;
+    
+    public Trodonte (int i, int j, Personagem personagem) {
         super(2, i, j);
+        this.personagem = personagem;
     }
 
-    public void mover(Tabuleiro tabuleiro){
-        Personagem personagem = tabuleiro.getPersonagem();
-        Elemento[][] matriz = tabuleiro.getMatriz();
-
-        
+    public int[] mover(){
         int diferencaLinha = personagem.linha - this.linha;
         int diferencaColuna = personagem.coluna - this.coluna;
+        int linhaNova = this.linha;
+        int colunaNova = this.coluna;
+        int[] coordenadas = new int[2]; 
+
         
-        boolean mover = false;
         int tentativa = 1;
         
-        while (!mover && tentativa <= 2) {
-            int linhaNova = this.linha;
-            int colunaNova = this.coluna;
-            
+        while (tentativa <= 2) {
             if (tentativa == 1) {
                 if (Math.abs(diferencaColuna) > Math.abs(diferencaLinha)){
                     if (diferencaColuna > 0) colunaNova++;
@@ -46,20 +45,12 @@ public class Trodonte extends Dinossauro implements Movel{
                 }
             }
             
-            if (linhaNova >= 0 && linhaNova < tabuleiro.getTamanho() && colunaNova >=0 && colunaNova < tabuleiro.getTamanho()){
-                if (matriz[linhaNova][colunaNova] == null) {
-                    matriz[this.linha][this.coluna] = null;
-                    matriz[linhaNova][colunaNova] = this;
-                        
-                    this.linha = linhaNova;
-                    this.coluna = colunaNova;
-                        
-                        mover = true;
-                }            
-            }
-            
             tentativa++;
         }
+        coordenadas[0] = linhaNova;
+        coordenadas[1] = colunaNova;
+        
+        return coordenadas;
     }
     
     public int atacar(Personagem personagem) {

@@ -8,11 +8,10 @@ package trabalho;
  *
  * @author nicol
  */
-public class Arma extends Elemento{
+public class Arma extends Item{
     private int municao;
     
-    public Arma(int i, int j) {
-        super(i, j);
+    public Arma() {
         this.municao = 1;
     }
     
@@ -30,5 +29,24 @@ public class Arma extends Elemento{
     
     public void gastarMunicao() {
         this.municao -= 1;
+    }
+    
+    public int atacar (Dinossauro alvo) {
+        int dano = 0;
+        if (this.municao >= 1) {
+            if (alvo instanceof Velociraptor) {
+                System.out.println("Velociraptor desviou do ataque!");
+                this.gastarMunicao();
+            } else {
+                System.out.println("Voce acertou o dardo! O dinossauro recebeu 2 de dano!");
+                this.gastarMunicao();
+                dano = 2;
+            }
+        } else {
+            System.out.println("Voce nao possui municao!");
+        }
+        
+        return dano;
+       
     }
 }

@@ -9,5 +9,5 @@ package trabalho;
  * @author nicol
  */
 public interface Movel {
-   void mover(Tabuleiro tabuleiro);
+   public int[] mover();
 }

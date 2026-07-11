@@ -8,7 +8,7 @@ package trabalho;
  *
  * @author nicol
  */
-public abstract class Dinossauro extends Elemento{
+public abstract class Dinossauro extends ElementoDinamico{
     private int saude;
     
     public Dinossauro(int saude, int i, int j){
