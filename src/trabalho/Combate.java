@@ -5,6 +5,7 @@
 package trabalho;
 
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,88 +21,102 @@ public class Combate {
     }
     
     public void iniciadoPorJogador(Tabuleiro tabuleiro) {
-        Scanner teclado = new Scanner(System.in);
         boolean combate = true;
         
         while (combate) {
-            System.out.println("O que voce vai fazer?");
             int saudeJogador = personagem.getSaude();
             int saudeDinossauro = dinossauro.getSaude();
+            String nomeDino = dinossauro.getNome();
             
-            System.out.println("Saude do Jogador: " + saudeJogador);
-            System.out.println("Saude do Dinossauro: " + saudeDinossauro);
+            String status = "🩸 Saúde do Jogador: " + saudeJogador + "\n" +
+                            "🦖 Saúde do " + nomeDino + ": " + saudeDinossauro + "\n\n" +
+                            "O que você vai fazer?";
             
-            System.out.println("1. Mover para outra casa");
-            System.out.println("2. Lutar com Dinossauro");
+            String[] opcoesPrincipais = {"🏃 Mover/Fugir", "⚔️ Lutar com Dinossauro"};
+            int escolhaPrincipal = JOptionPane.showOptionDialog(
+                null, 
+                status, 
+                "🚨 COMBATE SURPRESA!", 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.WARNING_MESSAGE, 
+                null, 
+                opcoesPrincipais, 
+                opcoesPrincipais[1]
+            );
 
-            int opcao = teclado.nextInt();
-            Bastao bastao = personagem.getInventario().getBastao();
-            Arma arma = personagem.getInventario().getArma();
-            
-            if (opcao == 1){
+            if (escolhaPrincipal == -1 || escolhaPrincipal == 0) {
+                JanelaJogo.log("🏃 Você escolheu fugir e se mover de área!");
                 personagem.mover();
                 combate = false;
-            } else if (opcao == 2) {
-                int armaEscolhida = 0;
-                
-                if (bastao != null && arma != null && arma.getMunicao() > 0) {
-                    System.out.println("Selecione sua arma");
-                    System.out.println("1. Bastao Eletrico");
-                    System.out.println("2. Arma de Dardos");
-
-                    armaEscolhida = teclado.nextInt();
-                } 
-                else if (arma != null && arma.getMunicao() > 0) {
-                    System.out.println("Selecione sua açao de ataque");
-                    System.out.println("2. Arma de Dardos");
-                    System.out.println("3. Atacar com as Maos (Soco)");
-
-                    armaEscolhida = teclado.nextInt();
-                            
-                } 
-                else if (bastao != null) {
-                    System.out.println("[!] Voce tem um bastao! Use ele para atacar!");
-                    armaEscolhida = 1;
-                } 
-                else {
-                    System.out.println("[!] Voce nao tem armas! Vai ter que lutar no soco!");
-                    armaEscolhida = 3;
-                }
-                
-                int dano = 0;
-                
-                if (armaEscolhida == 1) {
-                    dano = bastao.atacar();
-                } else if (armaEscolhida == 2) {
-                    dano = arma.atacar(dinossauro);
-                } else if (armaEscolhida == 3) {
-                    dano = personagem.atacar(dinossauro);
-                }
-                
-                dinossauro.levarDano(dano);
-                
-                
-                if (dinossauro.estaVivo()) {
-                    int danoDino = dinossauro.atacar(personagem);                     
-                    personagem.levarDano(danoDino);
-                    
-                    if (!(personagem.estaVivo())) {
-                        combate = false;
-                    }
-                }
-                
-                if (!dinossauro.estaVivo()) {
-                    System.out.println("🎉 Você derrotou o dinossauro!");
-                    tabuleiro.getMatriz()[dinossauro.linha][dinossauro.coluna] = null;
-                    tabuleiro.removeDinossauro();
-                    combate = false; 
-                }               
+                break;
             }
+
+            Bastao bastao = personagem.getInventario().getBastao();
+            Arma arma = personagem.getInventario().getArma();
+            int armaEscolhida = 0;
+            
+            if (bastao != null && arma != null && arma.getMunicao() > 0) {
+                String[] armas = {"⚡ Bastão Elétrico", "🔫 Arma de Dardos"};
+                int escolhaArma = JOptionPane.showOptionDialog(
+                    null, "Selecione sua arma:", "Arsenal", 
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, armas, armas[0]
+                );
+                armaEscolhida = (escolhaArma == 1) ? 2 : 1;
+                
+            } else if (arma != null && arma.getMunicao() > 0) {
+                String[] armas = {"🔫 Arma de Dardos", "👊 Atacar com as Mãos (Soco)"};
+                int escolhaArma = JOptionPane.showOptionDialog(
+                    null, "Selecione sua ação de ataque:", "Arsenal", 
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, armas, armas[0]
+                );
+                armaEscolhida = (escolhaArma == 0) ? 2 : 3;
+                        
+            } else if (bastao != null) {
+                JOptionPane.showMessageDialog(null, "⚡ Você tem um bastão! Use ele para atacar!");
+                armaEscolhida = 1;
+            } else {
+                JOptionPane.showMessageDialog(null, "👊 Você não tem armas! Vai ter que lutar no soco!");
+                armaEscolhida = 3;
+            }
+            
+            int dano = 0;
+            if (armaEscolhida == 1) {
+                JanelaJogo.log("⚡ Você usou o Bastão Elétrico!");
+                dano = bastao.atacar();
+            } else if (armaEscolhida == 2) {
+                JanelaJogo.log("🔫 Você disparou a Arma de Dardos!");
+                dano = arma.atacar(dinossauro);
+            } else if (armaEscolhida == 3) {
+                JanelaJogo.log("👊 Você atacou no soco!");
+                dano = personagem.atacar(dinossauro);
+            }
+            
+            dinossauro.levarDano(dano);
+            JanelaJogo.log("💥 Você causou " + dano + " de dano no Dinossauro.");
+            
+            // Turno de resposta do Dinossauro (Se continuar vivo)
+            if (dinossauro.estaVivo()) {
+                int danoDino = dinossauro.atacar(personagem);                     
+                personagem.levarDano(danoDino);
+                
+                if (!(personagem.estaVivo())) {
+                    JOptionPane.showMessageDialog(null, "💀 Você foi estraçalhado pelo Dinossauro...");
+                    combate = false;
+                }
+            }
+            
+            if (!dinossauro.estaVivo()) {
+                JOptionPane.showMessageDialog(null, "🎉 Você derrotou o dinossauro com sucesso!");
+                JanelaJogo.log("🎉 Você derrotou o dinossauro!");
+                tabuleiro.getMatriz()[dinossauro.linha][dinossauro.coluna] = null;
+                tabuleiro.removeDinossauro();
+                combate = false; 
+            }               
         }
     }
 
     public void iniciadoPorDinossauro (Tabuleiro tabuleiro) {
-        System.out.println("\n🚨! Um dinossauro atacou voce de surpresa!");
+        JanelaJogo.log("\n🚨! Um dinossauro atacou voce de surpresa!");
         
         int dano = dinossauro.atacar(personagem);                     
         personagem.levarDano(dano);
@@ -109,7 +124,7 @@ public class Combate {
         if (personagem.estaVivo()) {
             this.iniciadoPorJogador(tabuleiro);
         } else {
-            System.out.println("💀 Você foi derrotado no ataque surpresa inicial... Fim de jogo!");
+            JanelaJogo.log("💀 Você foi derrotado no ataque surpresa inicial... Fim de jogo!");
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class Compsognato extends Dinossauro implements Movel{
     public Compsognato (int i, int j) {
-        super(1, i, j);
+        super(1, i, j, "Compsognato");
     }
 
     public int[] mover(){

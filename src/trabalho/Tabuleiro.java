@@ -13,6 +13,7 @@ public class Tabuleiro {
     private boolean debug;
     private int numDinossauros;
     private ArrayList<String> itensCaixas;
+    private String nomeTabuleiro;
     
     public Tabuleiro (String caminhoArquivo, Personagem personagem) {
         this.tamanho = 20; 
@@ -25,6 +26,7 @@ public class Tabuleiro {
         this.itensCaixas.add("kit");
         this.itensCaixas.add("arma");
         this.itensCaixas.add("arma");
+        this.nomeTabuleiro = caminhoArquivo;
         
         Collections.shuffle(this.itensCaixas);
         
@@ -37,6 +39,10 @@ public class Tabuleiro {
     
     public int getTamanho() {
         return tamanho;
+    }
+    
+    public String getNomeTabuleiro () {
+        return nomeTabuleiro;
     }
     
     public Personagem getPersonagem() {
@@ -102,7 +108,7 @@ public class Tabuleiro {
             scanner.close();
             
         } catch (FileNotFoundException e) {
-            System.out.println("Erro: Nao foi possível encontrar o arquivo " + caminhoArquivo);
+            JanelaJogo.log("Erro: Nao foi possível encontrar o arquivo " + caminhoArquivo);
         }
     }
     

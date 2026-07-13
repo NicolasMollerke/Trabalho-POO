@@ -23,12 +23,12 @@ public class Bastao extends Item{
         int dano=0;
         
         if (dado == 1) {
-            System.out.println("Voce errou o ataque");
+            JanelaJogo.log("Voce errou o ataque");
         } else if (dado == 5 || dado == 6) {
-            System.out.println("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
+            JanelaJogo.log("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
             dano = 2;
         } else {
-            System.out.println("Voce acertou o ataque! O dinossauro recebeu 1 de dano!");
+            JanelaJogo.log("Voce acertou o ataque! O dinossauro recebeu 1 de dano!");
             dano = 1;
         } 
         

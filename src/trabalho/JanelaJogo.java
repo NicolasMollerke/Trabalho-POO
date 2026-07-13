@@ -9,24 +9,27 @@ public class JanelaJogo extends JFrame {
     private Tabuleiro tabuleiro;
     private GerenciadorMovimento gerenciador;
     private PainelTabuleiro painelTabuleiro;
+    private static JanelaJogo instancia;
     
     private JTextArea areaTexto;
     private JLabel labelSaude;
     private JLabel labelPercepcao;
     private JLabel labelArma;
+    private JLabel labelBastao;
+    private JLabel labelKit;
 
     public JanelaJogo(Tabuleiro tabuleiro, GerenciadorMovimento gerenciador) {
         this.tabuleiro = tabuleiro;
         this.gerenciador = gerenciador;
+        instancia = this;
         
         setTitle("Jurassic Survival Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
-        // 🌟 Layout Principal: Divide a janela em áreas (Centro, Leste, Oeste...)
         setLayout(new BorderLayout());
 
-        this.painelTabuleiro = new PainelTabuleiro();
+        this.painelTabuleiro = new PainelTabuleiro(this.tabuleiro);
         add(painelTabuleiro, BorderLayout.CENTER);
 
         JPanel painelControle = criarPainelControle();
@@ -55,12 +58,10 @@ public class JanelaJogo extends JFrame {
         painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         painel.setBackground(Color.LIGHT_GRAY);
 
-        // 🌟 SOLUÇÃO: Painel agregador para o topo (guarda Status + Inventário)
         JPanel painelTopo = new JPanel();
         painelTopo.setLayout(new BoxLayout(painelTopo, BoxLayout.Y_AXIS));
         painelTopo.setBackground(Color.LIGHT_GRAY);
 
-        // --- SUBPAINEL DE STATUS ---
         JPanel painelStatus = new JPanel(new GridLayout(2, 1));
         painelStatus.setBackground(Color.LIGHT_GRAY);
         labelSaude = new JLabel("❤️ Saúde: " + tabuleiro.getPersonagem().getSaude());
@@ -70,7 +71,6 @@ public class JanelaJogo extends JFrame {
         painelStatus.add(labelSaude);
         painelStatus.add(labelPercepcao);
         
-        // --- SUBPAINEL DE INVENTÁRIO ---
         JPanel painelInventario = new JPanel(new GridLayout(3, 1)); // Pronto para comportar Arma, Bastão e Kits futuramente
         painelInventario.setBackground(Color.LIGHT_GRAY);
         painelInventario.setBorder(BorderFactory.createTitledBorder("🎒 Inventário")); // Dá um visual de borda bem legal
@@ -78,22 +78,21 @@ public class JanelaJogo extends JFrame {
         Inventario inv = tabuleiro.getPersonagem().getInventario();
         labelArma = new JLabel("");
         labelArma.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        if (inv.getArma() != null) {
-            labelArma.setText("🔫 Arma de dardos (" + inv.getArma().getMunicao() + ")");
-        }
+        labelBastao = new JLabel("");
+        labelBastao.setFont(new Font("Arial", Font.PLAIN, 14));
+        labelKit = new JLabel("");
+        labelKit.setFont(new Font("Arial", Font.PLAIN, 14));
 
         painelInventario.add(labelArma);
+        painelInventario.add(labelBastao);
+        painelInventario.add(labelKit);
         
-        // Empilha os dois blocos de texto no agregador
         painelTopo.add(painelStatus);
-        painelTopo.add(Box.createRigidArea(new Dimension(0, 10))); // Dá um pequeno espaçamento entre eles
+        painelTopo.add(Box.createRigidArea(new Dimension(0, 10))); 
         painelTopo.add(painelInventario);
 
-        // Envia o agregador completo de uma vez só para o Norte
         painel.add(painelTopo, BorderLayout.NORTH);
         
-        // --- SUBPAINEL CENTRAL: Área de Texto (Logs do Jogo) ---
         areaTexto = new JTextArea();
         areaTexto.setEditable(false);
         areaTexto.setLineWrap(true);
@@ -102,10 +101,52 @@ public class JanelaJogo extends JFrame {
         JScrollPane scrollTexto = new JScrollPane(areaTexto);
         painel.add(scrollTexto, BorderLayout.CENTER);
 
-        // --- SUBPAINEL INFERIOR: PAD de Botoes de Movimentação ---
-        /*JPanel painelBotoes = new JPanel(new GridLayout(3, 3, 5, 5));
-        painelPad.setPreferredSize(new Dimension(280, 150));
-        painelPad.setBackground(Color.LIGHT_GRAY);*/
+        JPanel painelOpcoes = new JPanel(new GridLayout(1, 2, 10, 0)); // O '10' adiciona um pequeno espaço entre os botões
+        painelOpcoes.setBackground(Color.LIGHT_GRAY);
+
+        JButton btn1 = new JButton("Reiniciar Jogo");
+        JButton btn2 = new JButton("Novo Jogo");
+
+        btn1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Força borda quadrada com quina reta
+        btn1.setFocusPainted(false); // Remove a linha tracejada interna ao clicar
+        btn1.setBackground(Color.DARK_GRAY);
+        btn1.setForeground(Color.WHITE);
+        btn1.setFont(new Font("Arial", Font.BOLD, 14));
+
+
+        btn2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Força borda quadrada com quina reta
+        btn2.setFocusPainted(false);
+        btn2.setBackground(Color.DARK_GRAY);
+        btn2.setForeground(Color.WHITE);
+        btn2.setFont(new Font("Arial", Font.BOLD, 14));
+
+        btn1.addActionListener(e -> {
+            String arquivo = tabuleiro.getNomeTabuleiro();
+            Personagem jogador = new Personagem(tabuleiro.getPersonagem().getPercecao());
+                        
+            this.tabuleiro = new Tabuleiro(arquivo, jogador);
+            this.gerenciador = new GerenciadorMovimento(this.tabuleiro);
+            
+            this.painelTabuleiro.setTabuleiro(this.tabuleiro);
+
+            areaTexto.setText("");
+            logarMensagem("O jogo foi reiniciado no MESMO mapa!");
+
+            atualizarInterface();
+            
+            this.requestFocusInWindow();
+        });
+        
+        btn2.addActionListener(e -> {
+            this.dispose();
+            
+            Trabalho.iniciarNovoJogo();
+        });
+
+        painelOpcoes.add(btn1);
+        painelOpcoes.add(btn2);
+
+        painel.add(painelOpcoes, BorderLayout.SOUTH);
 
        
 
@@ -115,14 +156,14 @@ public class JanelaJogo extends JFrame {
     // Processa os movimentos tanto do teclado físico quanto do PAD de botões
     private void processarTeclado(int keyCode) {
         Personagem jogador = tabuleiro.getPersonagem();
-        int[] destino = new int[]{jogador.getLinha(), jogador.getColuna()};
+        int[] coordenadas = new int[]{ jogador.getLinha(), jogador.getColuna() };        
         boolean debug = tabuleiro.getDebug();
 
         switch (keyCode) {
-            case KeyEvent.VK_UP: destino[0]--; break;
-            case KeyEvent.VK_DOWN: destino[0]++; break;
-            case KeyEvent.VK_LEFT: destino[1]--; break;
-            case KeyEvent.VK_RIGHT: destino[1]++; break;
+            case KeyEvent.VK_UP: coordenadas[0]--; break;
+            case KeyEvent.VK_DOWN: coordenadas[0]++; break;
+            case KeyEvent.VK_LEFT: coordenadas[1]--; break;
+            case KeyEvent.VK_RIGHT: coordenadas[1]++; break;
             case KeyEvent.VK_D: 
                 if (debug) {
                     tabuleiro.desativarDebug();
@@ -131,13 +172,15 @@ public class JanelaJogo extends JFrame {
                 }
                 atualizarInterface();
                 return;
+                
+            case KeyEvent.VK_H: jogador.usarKit(); return;
             
             default: return; 
         }
 
-        if (gerenciador.posicaoValida(destino[0], destino[1], jogador)) {
-            gerenciador.atualizarPosicao(jogador, destino[0], destino[1]);
-            gerenciador.moverDinossauros();
+        if (gerenciador.posicaoValida(coordenadas[0], coordenadas[1], jogador)) {
+            gerenciador.moverJogador(jogador, coordenadas[0], coordenadas[1]);
+            //gerenciador.moverDinossauros();
             atualizarInterface();
             
             if (!jogador.estaVivo()) {
@@ -152,14 +195,34 @@ public class JanelaJogo extends JFrame {
             logarMensagem("⚠ Movimento inválido ou limite do mapa!");
         }
         
-        // Devolve o foco para a janela registrar o teclado físico
         this.requestFocusInWindow();
     }
 
     // Auxiliar para atualizar textos e redesenhar a tela
-    private void atualizarInterface() {
+    public void atualizarInterface() {
         labelSaude.setText("❤️ Saúde: " + tabuleiro.getPersonagem().getSaude());
         labelPercepcao.setText("👁️ Percepção: " + tabuleiro.getPersonagem().getPercecao());
+        
+        Inventario inv = tabuleiro.getPersonagem().getInventario();
+        
+        if (inv.getArma() != null) {
+            labelArma.setText("🔫 Arma de Dardos (" + inv.getArma().getMunicao() + ")");
+        } else {
+            labelArma.setText("");
+        }
+        
+        if (inv.getBastao() != null) {
+            labelBastao.setText("⚡ Bastão de Choque");
+        } else {
+            labelBastao.setText("");
+        }
+        
+        if (inv.getKit() != null) {
+            labelKit.setText("➕ Kit Médico");
+        } else {
+            labelKit.setText("");
+        }
+
         painelTabuleiro.repaint();
     }
 
@@ -168,55 +231,17 @@ public class JanelaJogo extends JFrame {
         areaTexto.append(msg + "\n");
         areaTexto.setCaretPosition(areaTexto.getDocument().getLength()); // Rola o scroll para baixo
     }
-
-    // O JPanel do tabuleiro permanece interno aqui
-    private class PainelTabuleiro extends JPanel {
-        private final int TAMANHO_CELULA = 35;
-
-        public PainelTabuleiro() {
-            int dim = tabuleiro.getTamanho() * TAMANHO_CELULA;
-            setPreferredSize(new Dimension(dim, dim));
-            setBackground(Color.BLACK);
+    
+    public static void log(String mensagem) {
+        if (instancia != null && instancia.areaTexto != null) {
+            instancia.logarMensagem(mensagem);
+        } else {
+            // Fallback caso a janela ainda não exista no começo do jogo
+            System.out.println(mensagem); 
         }
-
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Elemento[][] matriz = tabuleiro.getMatriz();
-            int tamanho = tabuleiro.getTamanho();
-            Personagem p = tabuleiro.getPersonagem();
-            boolean[][] visivel = tabuleiro.campoDeVisao(p.getLinha(), p.getColuna());
-
-            for (int i = 0; i < tamanho; i++) {
-                for (int j = 0; j < tamanho; j++) {
-                    int xPixel = j * TAMANHO_CELULA;
-                    int yPixel = i * TAMANHO_CELULA;
-
-                    if (!visivel[i][j] && !tabuleiro.getDebug()) {
-                        g.setColor(new Color(40, 40, 40));
-                        g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                    } else {
-                        Elemento atual = matriz[i][j];
-                        if (atual == null) {
-                            g.setColor(new Color(34, 139, 34));
-                            g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                        } else if (atual instanceof Personagem) {
-                            g.setColor(Color.BLUE);
-                            g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                        } else if (atual instanceof Parede) {
-                            g.setColor(Color.DARK_GRAY);
-                            g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                        } else if (atual instanceof Caixa) {
-                            g.setColor(Color.ORANGE);
-                            g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                        } else if (atual instanceof Dinossauro) {
-                            g.setColor(Color.RED);
-                            g.fillRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                        }
-                    }
-                    g.setColor(new Color(0, 0, 0, 50));
-                    g.drawRect(xPixel, yPixel, TAMANHO_CELULA, TAMANHO_CELULA);
-                }
-            }
-        }
+    }
+    
+    public static JanelaJogo getInstancia() {
+        return instancia;
     }
 }

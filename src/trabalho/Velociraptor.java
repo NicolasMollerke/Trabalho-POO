@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class Velociraptor extends Dinossauro implements Movel{
     public Velociraptor (int i, int j) {
-        super(2, i, j);
+        super(2, i, j, "Velociraptor");
     }
 
     public int[] mover(){

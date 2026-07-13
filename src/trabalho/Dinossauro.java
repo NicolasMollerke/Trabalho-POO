@@ -10,10 +10,12 @@ package trabalho;
  */
 public abstract class Dinossauro extends ElementoDinamico{
     private int saude;
+    private String nome;
     
-    public Dinossauro(int saude, int i, int j){
+    public Dinossauro(int saude, int i, int j, String nome){
         super(i, j);
         this.saude = saude;
+        this.nome = nome;
     }
     
     public void levarDano (int dano) {
@@ -30,6 +32,10 @@ public abstract class Dinossauro extends ElementoDinamico{
     
     public int atacar(Personagem personagem) {
         return 1;
+    }
+    
+    public String getNome () {
+        return this.nome;
     }
 
 }

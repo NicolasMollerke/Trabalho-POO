@@ -18,10 +18,10 @@ public class Kit extends Item {
     
     public int curar(Personagem personagem) {
         if (personagem.getSaude() == 5) {
-            System.out.println("Você ja possui saude maxima");
+            JanelaJogo.log("Você ja possui saude maxima");
             return 0;
         } else {
-            System.out.println("Você Recuperou 1 de vida!");
+            JanelaJogo.log("Você Recuperou 1 de vida!");
             return 1;
         }
     }

@@ -48,9 +48,10 @@ public class Personagem extends ElementoDinamico implements Movel{
         int dado = gerador.nextInt(3) + 1;
         
         if (dado <= percepcao) {
-            System.out.println("Voce desviou do ataque!");
+            JanelaJogo.log("Voce desviou do ataque!");
         } else {
             this.saude = this.saude - dano;
+            JanelaJogo.log("🦖 O Dinossauro contra-atacou e te deu " + dano + " de dano!");
         }
     }
     
@@ -95,12 +96,10 @@ public class Personagem extends ElementoDinamico implements Movel{
     
     public void usarKit () {
         if (inventario.getKit() != null) {
-        int cura = inventario.getKit().curar(this);
-        this.saude += cura;
-        System.out.println("Voce usou um Kit Medico e recuperou vida!");
-
+            int cura = inventario.getKit().curar(this);
+            this.saude += cura;
         } else {
-            System.out.println("\n[!] Voce nao possui nenhum Kit Medico no seu inventario!");
+            JanelaJogo.log("\n[!] Voce nao possui nenhum Kit Medico no seu inventario!");
         }
     }
     
@@ -111,21 +110,20 @@ public class Personagem extends ElementoDinamico implements Movel{
         
         if (!(alvo instanceof Rex)) {
             if (dado == 6) {
-                System.out.println("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
+                JanelaJogo.log("Voce deu um golpe critico! O dinossauro recebeu 2 de dano!");
                 dano = 2;
             } else if (dado == 1 || dado == 2) {
-                System.out.println("Voce errou o ataque!");
+                JanelaJogo.log("Voce errou o ataque!");
                 dano = 0;
             } else {
                 if (alvo instanceof Trodonte) {
-                    System.out.println("Trodonte nao levou dano!");
+                    JanelaJogo.log("Trodonte nao levou dano!");
                 } else {
-                    System.out.println("O dinossauro recebeu 1 de dano!");
                     dano = 1;
                 }
             }
         } else {
-            System.out.println("Rex nao leva dano sem armas!");
+            JanelaJogo.log("Rex nao leva dano sem armas!");
         }      
         
         return dano;

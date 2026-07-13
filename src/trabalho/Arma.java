@@ -35,15 +35,15 @@ public class Arma extends Item{
         int dano = 0;
         if (this.municao >= 1) {
             if (alvo instanceof Velociraptor) {
-                System.out.println("Velociraptor desviou do ataque!");
+                JanelaJogo.log("Velociraptor desviou do ataque!");
                 this.gastarMunicao();
             } else {
-                System.out.println("Voce acertou o dardo! O dinossauro recebeu 2 de dano!");
+                JanelaJogo.log("Voce acertou o dardo! O dinossauro recebeu 2 de dano!");
                 this.gastarMunicao();
                 dano = 2;
             }
         } else {
-            System.out.println("Voce nao possui municao!");
+            JanelaJogo.log("Voce nao possui municao!");
         }
         
         return dano;

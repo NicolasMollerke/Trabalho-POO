@@ -10,7 +10,7 @@ package trabalho;
  */
 public class Rex extends Dinossauro{
     public Rex (int i, int j) {
-        super(3, i, j);
+        super(3, i, j, "Rex");
     }
     
     public int atacar(Personagem personagem) {

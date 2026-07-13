@@ -12,7 +12,7 @@ public class Trodonte extends Dinossauro implements Movel{
     private Personagem personagem;
     
     public Trodonte (int i, int j, Personagem personagem) {
-        super(2, i, j);
+        super(2, i, j, "Trodonte");
         this.personagem = personagem;
     }
 

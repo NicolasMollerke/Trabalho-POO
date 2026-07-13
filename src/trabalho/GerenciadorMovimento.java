@@ -49,79 +49,76 @@ public class GerenciadorMovimento {
         
     }
     
-    public void moverJogador(Personagem jogador) {
+    public void moverJogador(Personagem jogador, int novaLinha, int novaColuna) {
         Elemento[][] matriz = tabuleiro.getMatriz();
-        boolean mover = false;
-
-        while (!mover) {
-            int[] coordenadas = jogador.mover();
-            int novaLinha = coordenadas[0];
-            int novaColuna = coordenadas[1];
 
             if (!posicaoValida(novaLinha, novaColuna, (ElementoDinamico) jogador)) {
-                System.out.println("Limite do mapa atingido! Tente novamente.");
-                continue;
+                JanelaJogo.log("Limite do mapa atingido! Tente novamente.");
+                return;
             }
 
             Elemento destino = matriz[novaLinha][novaColuna];
 
             if (destino == null) {
                 atualizarPosicao((ElementoDinamico)jogador, novaLinha, novaColuna);
-                mover = true;
             } 
 
             else if (destino instanceof Caixa) {
-                System.out.println("\n[!] Voce pisou em uma caixa de suprimentos 'X'!");
+                JanelaJogo.log("\n[!] Voce pisou em uma caixa de suprimentos 'X'!");
                 Caixa caixa = (Caixa) destino;
                 Item itemSurpresa = caixa.abrirCaixa(tabuleiro);
 
                 processarItemCaixa(jogador, itemSurpresa, novaLinha, novaColuna, tabuleiro.getMatriz());
-                mover = true;   
             } 
 
             else if (destino instanceof Dinossauro) {
                 Dinossauro dinossauro = (Dinossauro) destino;
-                System.out.println("Voce iniciou um combate com um dinossauro!");
+                
+                String nomeDino = dinossauro.getNome();
+                JanelaJogo.log("Voce iniciou um combate com " + nomeDino);
 
                 Combate combate = new Combate(jogador, dinossauro);
                 combate.iniciadoPorJogador(tabuleiro);
-                mover = true;
             } 
             else {
-                System.out.println("Caminho bloqueado por uma parede! Tente outra direção.");
+                JanelaJogo.log("Caminho bloqueado por uma parede! Tente outra direção.");
             }
-        }
     }
     
     private void processarItemCaixa(Personagem jogador, Item itemSurpresa, int novaLinha, int novaColuna, Elemento[][] matriz) {
         Inventario inventario = jogador.getInventario(); 
+        
+        atualizarPosicao((ElementoDinamico)jogador, novaLinha, novaColuna);
+
 
         if (itemSurpresa instanceof Arma) {
             if (inventario.getArma() == null){
                 inventario.adquireArma((Arma) itemSurpresa);
-                System.out.println("Parabens! Voce adquiriu uma Arma de Dardos!");
+                JanelaJogo.log("Parabens! Voce adquiriu uma Arma de Dardos!");
+                JanelaJogo.getInstancia().atualizarInterface();
             } else {
                 inventario.getArma().ganhaMunicao();
-                System.out.println("Parabens! Voce adquiriu municao para sua Arma!");
+                JanelaJogo.log("Parabens! Voce adquiriu municao para sua Arma!");
+                JanelaJogo.getInstancia().atualizarInterface();
             }
-
+                       
+            
             Compsognato compso = new Compsognato(novaLinha, novaColuna);
             tabuleiro.adicionaDinossauro(); 
-            matriz[novaLinha][novaColuna] = compso;
-
-            System.out.println("Um Compsognato surpresa atacou voce!");
+            
+            JanelaJogo.log("Um Compsognato surpresa atacou voce!");
             Combate combate = new Combate(jogador, compso);
             combate.iniciadoPorDinossauro(tabuleiro);
-
+            
+            
+            
+            matriz[novaLinha][novaColuna] = jogador;
         } else if (itemSurpresa instanceof Bastao){
             inventario.adquireBastao((Bastao) itemSurpresa);
-            System.out.println("Parabens! Voce adquiriu um Bastao de Choque");
-            atualizarPosicao((ElementoDinamico)jogador, novaLinha, novaColuna);
-
+            JanelaJogo.log("Parabens! Voce adquiriu um Bastao de Choque");
         } else if (itemSurpresa instanceof Kit){
             inventario.adquireKit((Kit) itemSurpresa);
-            System.out.println("Parabens! Voce adquiriu um Kit Medico");
-            atualizarPosicao((ElementoDinamico)jogador, novaLinha, novaColuna);
+            JanelaJogo.log("Parabens! Voce adquiriu um Kit Medico");
         }
     }
     
@@ -148,7 +145,7 @@ public class GerenciadorMovimento {
 
         if (destino instanceof Personagem) {
             Personagem jogador = (Personagem) destino;
-            System.out.println("\n[!] Um dinossauro emboscou voce!");
+            JanelaJogo.log("\n[!] Um dinossauro emboscou voce!");
 
             Combate combate = new Combate(jogador, (Dinossauro) elemento);
             combate.iniciadoPorDinossauro(tabuleiro);
@@ -158,23 +155,26 @@ public class GerenciadorMovimento {
         }
     }
     
-    public boolean posicaoValida(int x, int y, Elemento elemento) {
+    public boolean posicaoValida(int x, int y, ElementoDinamico elemento) {
         if (x < 0 || x >= this.tamanho || y < 0 || y >= this.tamanho) {
             return false;
         }
-
+        
         Elemento destino = tabuleiro.getMatriz()[x][y];
+        
+        if (destino instanceof Parede) {
+            return false; 
+        }
 
-        if (elemento instanceof Personagem) {
+        if (destino instanceof Personagem) {
             return true; 
         }
 
-        // 3. REGRAS PARA O DINOSSAURO
         if (elemento instanceof Dinossauro) {
             return destino == null || destino instanceof Personagem;
         }
 
-        return false;
+        return true;
     }
     
     public void atualizarPosicao (ElementoDinamico elemento, int x, int y) {
