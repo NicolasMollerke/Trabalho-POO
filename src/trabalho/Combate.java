@@ -4,6 +4,11 @@
  */
 package trabalho;
 
+import trabalho.itens.Arma;
+import trabalho.itens.Bastao;
+import trabalho.modelo.Tabuleiro;
+import trabalho.entidades.Dinossauro;
+import trabalho.entidades.Personagem;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -108,7 +113,7 @@ public class Combate {
             if (!dinossauro.estaVivo()) {
                 JOptionPane.showMessageDialog(null, "🎉 Você derrotou o dinossauro com sucesso!");
                 JanelaJogo.log("🎉 Você derrotou o dinossauro!");
-                tabuleiro.getMatriz()[dinossauro.linha][dinossauro.coluna] = null;
+                tabuleiro.getMatriz()[dinossauro.getLinha()][dinossauro.getColuna()] = null;
                 tabuleiro.removeDinossauro();
                 combate = false; 
             }               

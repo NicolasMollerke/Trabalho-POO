@@ -4,6 +4,8 @@
  */
 package trabalho;
 
+import trabalho.modelo.Elemento;
+
 /**
  *
  * @author nicol

@@ -1,5 +1,7 @@
 package trabalho;
 
+import trabalho.modelo.Tabuleiro;
+import trabalho.entidades.Personagem;
 import java.util.Random;
 import javax.swing.JOptionPane;
 

@@ -1,5 +1,8 @@
 package trabalho;
 
+import trabalho.itens.Inventario;
+import trabalho.modelo.Tabuleiro;
+import trabalho.entidades.Personagem;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -47,7 +50,11 @@ public class JanelaJogo extends JFrame {
             }
         });
         
-        logarMensagem("Jogo Iniciado! Use as setas, WASD ou o PAD de botões para mover.");
+        logarMensagem("Jogo Iniciado! Use as setas para mover.");
+        
+        SwingUtilities.invokeLater(() -> {
+            atualizarInterface();
+        });
     }
 
     // Cria a barra lateral direita
@@ -71,9 +78,9 @@ public class JanelaJogo extends JFrame {
         painelStatus.add(labelSaude);
         painelStatus.add(labelPercepcao);
         
-        JPanel painelInventario = new JPanel(new GridLayout(3, 1)); // Pronto para comportar Arma, Bastão e Kits futuramente
+        JPanel painelInventario = new JPanel(new GridLayout(3, 1)); 
         painelInventario.setBackground(Color.LIGHT_GRAY);
-        painelInventario.setBorder(BorderFactory.createTitledBorder("🎒 Inventário")); // Dá um visual de borda bem legal
+        painelInventario.setBorder(BorderFactory.createTitledBorder("🎒 Inventário"));
         
         Inventario inv = tabuleiro.getPersonagem().getInventario();
         labelArma = new JLabel("");
@@ -101,20 +108,20 @@ public class JanelaJogo extends JFrame {
         JScrollPane scrollTexto = new JScrollPane(areaTexto);
         painel.add(scrollTexto, BorderLayout.CENTER);
 
-        JPanel painelOpcoes = new JPanel(new GridLayout(1, 2, 10, 0)); // O '10' adiciona um pequeno espaço entre os botões
+        JPanel painelOpcoes = new JPanel(new GridLayout(1, 2, 10, 0));
         painelOpcoes.setBackground(Color.LIGHT_GRAY);
 
         JButton btn1 = new JButton("Reiniciar Jogo");
         JButton btn2 = new JButton("Novo Jogo");
 
-        btn1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Força borda quadrada com quina reta
-        btn1.setFocusPainted(false); // Remove a linha tracejada interna ao clicar
+        btn1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        btn1.setFocusPainted(false); 
         btn1.setBackground(Color.DARK_GRAY);
         btn1.setForeground(Color.WHITE);
         btn1.setFont(new Font("Arial", Font.BOLD, 14));
 
 
-        btn2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Força borda quadrada com quina reta
+        btn2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         btn2.setFocusPainted(false);
         btn2.setBackground(Color.DARK_GRAY);
         btn2.setForeground(Color.WHITE);
@@ -153,7 +160,6 @@ public class JanelaJogo extends JFrame {
         return painel;
     }
 
-    // Processa os movimentos tanto do teclado físico quanto do PAD de botões
     private void processarTeclado(int keyCode) {
         Personagem jogador = tabuleiro.getPersonagem();
         int[] coordenadas = new int[]{ jogador.getLinha(), jogador.getColuna() };        
@@ -180,7 +186,7 @@ public class JanelaJogo extends JFrame {
 
         if (gerenciador.posicaoValida(coordenadas[0], coordenadas[1], jogador)) {
             gerenciador.moverJogador(jogador, coordenadas[0], coordenadas[1]);
-            //gerenciador.moverDinossauros();
+            gerenciador.moverDinossauros();
             atualizarInterface();
             
             if (!jogador.estaVivo()) {

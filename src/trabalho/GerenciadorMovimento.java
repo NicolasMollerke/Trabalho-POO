@@ -4,6 +4,19 @@
  */
 package trabalho;
 
+import trabalho.itens.Item;
+import trabalho.itens.Arma;
+import trabalho.itens.Kit;
+import trabalho.itens.Bastao;
+import trabalho.itens.Inventario;
+import trabalho.modelo.Elemento;
+import trabalho.modelo.Tabuleiro;
+import trabalho.modelo.ElementoDinamico;
+import trabalho.entidades.Dinossauro;
+import trabalho.entidades.Compsognato;
+import trabalho.entidades.Personagem;
+import trabalho.entidades.Velociraptor;
+
 /**
  *
  * @author nicol

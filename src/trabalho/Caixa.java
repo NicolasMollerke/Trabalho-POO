@@ -4,6 +4,12 @@
  */
 package trabalho;
 
+import trabalho.itens.Item;
+import trabalho.itens.Arma;
+import trabalho.itens.Kit;
+import trabalho.itens.Bastao;
+import trabalho.modelo.Tabuleiro;
+import trabalho.modelo.Elemento;
 import java.util.Random;
 
 /**

@@ -1,10 +1,18 @@
-package trabalho; 
+package trabalho.modelo; 
 
+import trabalho.entidades.Trodonte;
+import trabalho.entidades.Rex;
+import trabalho.entidades.Compsognato;
+import trabalho.entidades.Personagem;
+import trabalho.entidades.Velociraptor;
 import java.io.File;
 import java.io.FileNotFoundException; // Import necessário para tratar erro de arquivo sumido
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import trabalho.Caixa;
+import trabalho.JanelaJogo;
+import trabalho.Parede;
 
 public class Tabuleiro {
     private Elemento[][] matriz;
