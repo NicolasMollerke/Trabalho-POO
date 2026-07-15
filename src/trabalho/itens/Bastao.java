@@ -4,14 +4,17 @@
  */
 package trabalho.itens;
 
+import trabalho.Ataque;
 import trabalho.JanelaJogo;
+import trabalho.modelo.ElementoDinamico;
 
 /**
  *
  * @author nicol
  */
-public class Bastao extends Item{
+public class Bastao extends Item implements Ataque{
     public Bastao () {
+        super("bastao");
     }
     
     public String getSimbolo() { 
@@ -19,7 +22,7 @@ public class Bastao extends Item{
     }
     
     
-    public int atacar() {
+    public int atacar(ElementoDinamico alvo) {
         java.util.Random gerador = new java.util.Random();
         int dado = gerador.nextInt(6) + 1;
         int dano=0;

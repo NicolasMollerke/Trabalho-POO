@@ -34,7 +34,7 @@ public class Caixa extends Elemento{
         } else if (itemSorteado.equals("kit")) {
             return new Kit();
         } else {
-            return new Arma();
+            return new Arma(1);
         }
     }
 }

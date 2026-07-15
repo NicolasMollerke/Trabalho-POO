@@ -5,6 +5,7 @@
 package trabalho.entidades;
 
 import trabalho.Movel;
+import trabalho.modelo.ElementoDinamico;
 
 /**
  *
@@ -48,7 +49,7 @@ public int[] mover() {
         return coordenadas;
     }
     
-    public int atacar(Personagem personagem) {
+    public int atacar(ElementoDinamico personagem) {
         return 1;
     }
     

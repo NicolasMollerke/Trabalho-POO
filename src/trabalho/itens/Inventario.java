@@ -4,52 +4,59 @@
  */
 package trabalho.itens;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author nicol
  */
 public class Inventario {
-    private Arma arma;
-    private Bastao bastao;
-    private Kit kit;
-    
+    private List<Item> itens;
+    private final int CAPACIDADE = 5; // Caso queira limitar o tamanho da mochila
+
     public Inventario() {
-        this.arma = null;
-        this.bastao = null;
-        this.kit = null;
+        this.itens = new ArrayList<>();
+    }
+
+    public boolean adicionarItem(Item novoItem) {
+        if (itens.size() < CAPACIDADE) {
+            itens.add(novoItem);
+            return true;
+        }
+        return false;
+    }
+
+    public void removerItem(Item item) {
+        itens.remove(item);
+    }
+    
+    public List<Item> getItens() {
+        return itens;
+    }
+    
+    public Item buscarItem(String nome) {
+        for (Item item : itens) {
+            if (item.getNome().equalsIgnoreCase(nome)) {
+                return item;
+            }
+        }
+        return null;
     }
     
     public Arma getArma() {
-        return this.arma;
+        return (Arma) buscarItem("arma");
     }
     
     public Bastao getBastao() {
-        return this.bastao;
+        return (Bastao) buscarItem("bastao");
     }
     
     public Kit getKit() {
-        return this.kit;
-    }
-    
-    public void adquireArma(Arma arma) {
-        this.arma = arma;
-    }
-    
-    public void adquireBastao(Bastao bastao) {
-        this.bastao = bastao;
-    }
-    
-    public void adquireKit(Kit kit) {
-        this.kit = kit;
-    }
-    
-    public void gastaKit() {
-        this.kit = null;
+        return (Kit) buscarItem("kit");
     }
     
     public void restauraInventario() {
-        this.arma = null;
-        this.bastao = null;
-        this.kit = null;
+        this.itens.clear();
     }
 }

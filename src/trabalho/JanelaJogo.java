@@ -41,7 +41,6 @@ public class JanelaJogo extends JFrame {
         pack(); 
         setLocationRelativeTo(null); // Centraliza na tela
         
-        // Mantém o foco no teclado físico também
         setFocusable(true);
         addKeyListener(new KeyAdapter() {
             @Override
@@ -108,11 +107,12 @@ public class JanelaJogo extends JFrame {
         JScrollPane scrollTexto = new JScrollPane(areaTexto);
         painel.add(scrollTexto, BorderLayout.CENTER);
 
-        JPanel painelOpcoes = new JPanel(new GridLayout(1, 2, 10, 0));
+        JPanel painelOpcoes = new JPanel(new GridLayout(2, 2, 10, 10));
         painelOpcoes.setBackground(Color.LIGHT_GRAY);
 
         JButton btn1 = new JButton("Reiniciar Jogo");
         JButton btn2 = new JButton("Novo Jogo");
+        JButton btn3 = new JButton("Sair do Jogo");
 
         btn1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         btn1.setFocusPainted(false); 
@@ -126,6 +126,12 @@ public class JanelaJogo extends JFrame {
         btn2.setBackground(Color.DARK_GRAY);
         btn2.setForeground(Color.WHITE);
         btn2.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        btn3.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        btn3.setFocusPainted(false);
+        btn3.setBackground(Color.DARK_GRAY);
+        btn3.setForeground(Color.WHITE);
+        btn3.setFont(new Font("Arial", Font.BOLD, 14));
 
         btn1.addActionListener(e -> {
             String arquivo = tabuleiro.getNomeTabuleiro();
@@ -149,9 +155,17 @@ public class JanelaJogo extends JFrame {
             
             Trabalho.iniciarNovoJogo();
         });
+        
+        btn3.addActionListener(e -> {
+            tabuleiro.salvarJogo();
+            
+            System.exit(0);
+        });
 
         painelOpcoes.add(btn1);
         painelOpcoes.add(btn2);
+        painelOpcoes.add(btn3);
+
 
         painel.add(painelOpcoes, BorderLayout.SOUTH);
 
@@ -204,12 +218,12 @@ public class JanelaJogo extends JFrame {
         this.requestFocusInWindow();
     }
 
-    // Auxiliar para atualizar textos e redesenhar a tela
     public void atualizarInterface() {
         labelSaude.setText("❤️ Saúde: " + tabuleiro.getPersonagem().getSaude());
         labelPercepcao.setText("👁️ Percepção: " + tabuleiro.getPersonagem().getPercecao());
         
         Inventario inv = tabuleiro.getPersonagem().getInventario();
+        
         
         if (inv.getArma() != null) {
             labelArma.setText("🔫 Arma de Dardos (" + inv.getArma().getMunicao() + ")");
@@ -232,17 +246,15 @@ public class JanelaJogo extends JFrame {
         painelTabuleiro.repaint();
     }
 
-    // Escreve novas mensagens na janelinha de texto lateral
     public void logarMensagem(String msg) {
         areaTexto.append(msg + "\n");
-        areaTexto.setCaretPosition(areaTexto.getDocument().getLength()); // Rola o scroll para baixo
+        areaTexto.setCaretPosition(areaTexto.getDocument().getLength());
     }
     
     public static void log(String mensagem) {
         if (instancia != null && instancia.areaTexto != null) {
             instancia.logarMensagem(mensagem);
         } else {
-            // Fallback caso a janela ainda não exista no começo do jogo
             System.out.println(mensagem); 
         }
     }

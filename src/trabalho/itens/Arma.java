@@ -7,16 +7,19 @@ package trabalho.itens;
 import trabalho.JanelaJogo;
 import trabalho.entidades.Dinossauro;
 import trabalho.entidades.Velociraptor;
+import trabalho.Ataque;
+import trabalho.modelo.ElementoDinamico;
 
 /**
  *
  * @author nicol
  */
-public class Arma extends Item{
+public class Arma extends Item implements Ataque{
     private int municao;
     
-    public Arma() {
-        this.municao = 1;
+    public Arma(int municao) {
+        super("arma");
+        this.municao = municao;
     }
     
     public String getSimbolo() { 
@@ -35,7 +38,7 @@ public class Arma extends Item{
         this.municao -= 1;
     }
     
-    public int atacar (Dinossauro alvo) {
+    public int atacar (ElementoDinamico alvo) {
         int dano = 0;
         if (this.municao >= 1) {
             if (alvo instanceof Velociraptor) {

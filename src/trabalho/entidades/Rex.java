@@ -4,6 +4,8 @@
  */
 package trabalho.entidades;
 
+import trabalho.modelo.ElementoDinamico;
+
 /**
  *
  * @author nicol
@@ -13,7 +15,7 @@ public class Rex extends Dinossauro{
         super(3, i, j, "Rex");
     }
     
-    public int atacar(Personagem personagem) {
+    public int atacar(ElementoDinamico personagem) {
         return 1;
     }
     

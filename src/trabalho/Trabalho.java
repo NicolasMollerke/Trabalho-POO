@@ -12,6 +12,36 @@ public class Trabalho {
     }
 
     public static void iniciarNovoJogo() {
+        String[] base = {"Novo Jogo", "Continuar Jogo"};
+        int escolhaBase = JOptionPane.showOptionDialog(
+                null, 
+                "O que voce quer fazer:", 
+                "Título da Janela",
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null, 
+                base, 
+                base[1]
+        );
+        
+        if (escolhaBase == 1){
+            
+            Personagem jogador = new Personagem(0);
+
+            jogador.carregarJogador("src/trabalho/arquivos/save_jogador.txt");
+
+            Tabuleiro tabuleiro = new Tabuleiro("src/trabalho/arquivos/save_mapa.txt", jogador);
+
+            GerenciadorMovimento gerenciador = new GerenciadorMovimento(tabuleiro);
+            
+            java.awt.EventQueue.invokeLater(() -> {
+                JanelaJogo tela = new JanelaJogo(tabuleiro, gerenciador);
+                tela.setVisible(true);
+            });
+            
+            return;
+        }
+        
         String[] opcoes = {"Fácil (Percepção 3)", "Médio (Percepção 2)", "Difícil (Percepção 1)"};
         int escolha = JOptionPane.showOptionDialog(
                 null, 
@@ -37,7 +67,7 @@ public class Trabalho {
         Random gerador = new Random();
         int random = gerador.nextInt(3) + 1;
         
-        Tabuleiro tabuleiro = new Tabuleiro("tabuleiro" + random + ".txt", personagem); 
+        Tabuleiro tabuleiro = new Tabuleiro("src/trabalho/arquivos/tabuleiro" + random + ".txt", personagem); 
         GerenciadorMovimento gerenciador = new GerenciadorMovimento(tabuleiro);
         
         java.awt.EventQueue.invokeLater(() -> {

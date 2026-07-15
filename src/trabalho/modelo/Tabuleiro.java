@@ -7,12 +7,18 @@ import trabalho.entidades.Personagem;
 import trabalho.entidades.Velociraptor;
 import java.io.File;
 import java.io.FileNotFoundException; // Import necessário para tratar erro de arquivo sumido
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 import trabalho.Caixa;
 import trabalho.JanelaJogo;
 import trabalho.Parede;
+import trabalho.itens.Item;
+import java.util.List;
+import java.util.ArrayList;
+import trabalho.itens.Arma;
 
 public class Tabuleiro {
     private Elemento[][] matriz;
@@ -69,13 +75,13 @@ public class Tabuleiro {
         return numDinossauros <= 0;
     }
     
-    private void lerTabuleiro (String caminhoArquivo) {
-        try {
-            File arquivo = new File(caminhoArquivo);
-            Scanner scanner = new Scanner(arquivo);
+    private void lerTabuleiro(String caminhoArquivo) {
+        File arquivo = new File(caminhoArquivo);
+        
+        try (Scanner scanner = new Scanner(arquivo)) {
             
-            for (int i = 0; i < tamanho; i++){
-                for (int j = 0; j < tamanho; j++){
+            for (int i = 0; i < tamanho; i++) {
+                for (int j = 0; j < tamanho; j++) {
                     if (scanner.hasNext()) {
                         String caractere = scanner.next();
                         
@@ -113,10 +119,8 @@ public class Tabuleiro {
                     }
                 }
             }
-            scanner.close();
-            
-        } catch (FileNotFoundException e) {
-            JanelaJogo.log("Erro: Nao foi possível encontrar o arquivo " + caminhoArquivo);
+        } catch (Exception e) {
+            JanelaJogo.log("Erro ao processar a leitura do tabuleiro: " + e.getMessage());
         }
     }
     
@@ -221,4 +225,34 @@ public class Tabuleiro {
     public void desativarDebug() {
         this.debug = false;
     }
+    
+    public void salvarJogo() {
+        salvarMapa("src/trabalho/arquivos/save_mapa.txt");
+        personagem.salvarPersonagem("src/trabalho/arquivos/save_jogador.txt");
+        
+        System.out.println("💾 Jogo salvo com sucesso! (Mapa e Jogador)");
+    }
+
+    private void salvarMapa(String nomeArquivo) {
+        try (FileWriter fw = new FileWriter(nomeArquivo);
+             PrintWriter pw = new PrintWriter(fw)) {
+            
+            for (int i = 0; i < tamanho; i++) {
+                StringBuilder linhaTexto = new StringBuilder();
+                for (int j = 0; j < tamanho; j++) {
+                    Elemento atual = matriz[i][j];
+                    if (atual == null) {
+                        linhaTexto.append(". ");
+                    } else {
+                        linhaTexto.append(atual.getSimbolo()).append(" ");
+                    }
+                }
+                pw.println(linhaTexto.toString().trim());
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao salvar o mapa: " + e.getMessage());
+        }
+    }
+    
+    
 }

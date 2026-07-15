@@ -4,18 +4,26 @@
  */
 package trabalho.entidades;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import trabalho.Ataque;
 import trabalho.modelo.ElementoDinamico;
 import trabalho.itens.Inventario;
 import trabalho.JanelaJogo;
 import trabalho.Movel;
+import trabalho.itens.Arma;
+import trabalho.itens.Item;
+import trabalho.itens.Kit;
 
 /**
  *
  * @author nicol
  */
-public class Personagem extends ElementoDinamico implements Movel{
+public class Personagem extends ElementoDinamico implements Movel,Ataque{
     private int percepcao;
     private int saude;
     private Inventario inventario;
@@ -102,12 +110,13 @@ public class Personagem extends ElementoDinamico implements Movel{
         if (inventario.getKit() != null) {
             int cura = inventario.getKit().curar(this);
             this.saude += cura;
+            inventario.removerItem(inventario.getKit());
         } else {
             JanelaJogo.log("\n[!] Voce nao possui nenhum Kit Medico no seu inventario!");
         }
     }
     
-    public int atacar(Dinossauro alvo) {
+    public int atacar(ElementoDinamico alvo) {
         java.util.Random gerador = new java.util.Random();
         int dado = gerador.nextInt(6) + 1;
         int dano=0;
@@ -137,6 +146,81 @@ public class Personagem extends ElementoDinamico implements Movel{
         this.saude = 5;
         inventario.restauraInventario();
         this.setPosicao(0, 0);
+    }
+    
+    public void carregarJogador(String nomeArquivo) {
+        File arquivo = new File(nomeArquivo);
+        
+        if (!arquivo.exists()) {
+            System.out.println("⚠️ Nenhum save de jogador encontrado em: " + nomeArquivo);
+            return;
+        }
+
+        try (Scanner scanner = new Scanner(arquivo)) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine().trim();
+                
+                if (linha.startsWith("SAUDE:")) {
+                    int saude = Integer.parseInt(linha.replace("SAUDE:", ""));
+                    this.saude = saude;
+                }
+                
+                else if (linha.startsWith("PERCEPCAO:")) {
+                    int percepcao = Integer.parseInt(linha.replace("PERCEPCAO:", ""));
+                    this.percepcao = percepcao;
+                }
+                
+                else if (linha.startsWith("ITENS:")) {
+                    String dadosItens = linha.replace("ITENS:", "");
+                    if (!dadosItens.isEmpty()) {
+                        String[] itensSalvos = dadosItens.split(",");
+                        for (String nomeItem : itensSalvos) {
+                            if (nomeItem.equals("bastao")) {
+                                this.inventario.adicionarItem(new trabalho.itens.Bastao());
+                            } else if (nomeItem.equals("kit")) {
+                                this.inventario.adicionarItem(new Kit());
+                            } else if (nomeItem.startsWith("arma-")) {
+                                int municao = Integer.parseInt(nomeItem.split("-")[1]);
+                                this.inventario.adicionarItem(new Arma(municao));
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("💾 Dados do jogador carregados com sucesso!");
+            
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao carregar os dados do jogador: " + e.getMessage());
+        }
+    }
+    
+    public void salvarPersonagem(String nomeArquivo) {
+        try (FileWriter fw = new FileWriter(nomeArquivo);
+             PrintWriter pw = new PrintWriter(fw)) {
+            
+            pw.println("SAUDE:" + this.saude);
+            pw.println("PERCEPCAO:" + this.percepcao);
+            
+            StringBuilder linhaItens = new StringBuilder("ITENS:");
+            List<Item> listaDoInventario = this.inventario.getItens();
+            
+            for (Item item : listaDoInventario) {
+                if (item instanceof Arma) {
+                    linhaItens.append("arma-").append(((Arma) item).getMunicao()).append(",");
+                } else {
+                    linhaItens.append(item.getNome().toLowerCase()).append(",");
+                }
+            }
+            
+            String resultado = linhaItens.toString();
+            if (resultado.endsWith(",")) {
+                resultado = resultado.substring(0, resultado.length() - 1);
+            }
+            pw.println(resultado);
+            
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao salvar o jogador: " + e.getMessage());
+        }
     }
 }
     

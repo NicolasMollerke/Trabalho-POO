@@ -106,7 +106,7 @@ public class GerenciadorMovimento {
 
         if (itemSurpresa instanceof Arma) {
             if (inventario.getArma() == null){
-                inventario.adquireArma((Arma) itemSurpresa);
+                inventario.adicionarItem((Arma) itemSurpresa);
                 JanelaJogo.log("Parabens! Voce adquiriu uma Arma de Dardos!");
                 JanelaJogo.getInstancia().atualizarInterface();
             } else {
@@ -127,10 +127,10 @@ public class GerenciadorMovimento {
             
             matriz[novaLinha][novaColuna] = jogador;
         } else if (itemSurpresa instanceof Bastao){
-            inventario.adquireBastao((Bastao) itemSurpresa);
+            inventario.adicionarItem((Bastao) itemSurpresa);
             JanelaJogo.log("Parabens! Voce adquiriu um Bastao de Choque");
         } else if (itemSurpresa instanceof Kit){
-            inventario.adquireKit((Kit) itemSurpresa);
+            inventario.adicionarItem((Kit) itemSurpresa);
             JanelaJogo.log("Parabens! Voce adquiriu um Kit Medico");
         }
     }

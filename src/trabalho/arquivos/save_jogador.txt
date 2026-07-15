@@ -1,0 +1,3 @@
+SAUDE:4
+PERCEPCAO:2
+ITENS:arma-1

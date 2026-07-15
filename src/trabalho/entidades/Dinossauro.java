@@ -5,12 +5,13 @@
 package trabalho.entidades;
 
 import trabalho.modelo.ElementoDinamico;
+import trabalho.Ataque;
 
 /**
  *
  * @author nicol
  */
-public abstract class Dinossauro extends ElementoDinamico{
+public abstract class Dinossauro extends ElementoDinamico implements Ataque{
     private int saude;
     private String nome;
     
@@ -30,10 +31,6 @@ public abstract class Dinossauro extends ElementoDinamico{
 
     public int getSaude() {
         return saude;
-    }
-    
-    public int atacar(Personagem personagem) {
-        return 1;
     }
     
     public String getNome () {

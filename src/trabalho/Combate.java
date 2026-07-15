@@ -87,10 +87,11 @@ public class Combate {
             int dano = 0;
             if (armaEscolhida == 1) {
                 JanelaJogo.log("⚡ Você usou o Bastão Elétrico!");
-                dano = bastao.atacar();
+                dano = bastao.atacar(dinossauro);
             } else if (armaEscolhida == 2) {
                 JanelaJogo.log("🔫 Você disparou a Arma de Dardos!");
                 dano = arma.atacar(dinossauro);
+                JanelaJogo.getInstancia().atualizarInterface();
             } else if (armaEscolhida == 3) {
                 JanelaJogo.log("👊 Você atacou no soco!");
                 dano = personagem.atacar(dinossauro);
@@ -99,7 +100,6 @@ public class Combate {
             dinossauro.levarDano(dano);
             JanelaJogo.log("💥 Você causou " + dano + " de dano no Dinossauro.");
             
-            // Turno de resposta do Dinossauro (Se continuar vivo)
             if (dinossauro.estaVivo()) {
                 int danoDino = dinossauro.atacar(personagem);                     
                 personagem.levarDano(danoDino);

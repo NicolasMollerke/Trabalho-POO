@@ -12,7 +12,8 @@ import trabalho.entidades.Personagem;
  * @author nicol
  */
 public class Kit extends Item {
-    public Kit () {
+    public Kit() {
+        super("kit");
     }
     
     public String getSimbolo() { 

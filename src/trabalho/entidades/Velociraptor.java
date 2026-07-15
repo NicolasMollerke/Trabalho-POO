@@ -6,6 +6,7 @@ package trabalho.entidades;
 
 import java.util.Random;
 import trabalho.Movel;
+import trabalho.modelo.ElementoDinamico;
 
 /**
  *
@@ -36,7 +37,7 @@ public class Velociraptor extends Dinossauro implements Movel{
         return coordenadas;
     }
     
-    public int atacar(Personagem personagem) {
+    public int atacar(ElementoDinamico personagem) {
         return 1;
     }
     
