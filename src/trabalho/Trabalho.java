@@ -12,6 +12,10 @@ public class Trabalho {
     }
 
     public static void iniciarNovoJogo() {
+        
+        JanelaJogo.finalizarJogoAtual();
+        
+        
         String[] base = {"Novo Jogo", "Continuar Jogo"};
         int escolhaBase = JOptionPane.showOptionDialog(
                 null, 
@@ -33,6 +37,9 @@ public class Trabalho {
             Tabuleiro tabuleiro = new Tabuleiro("src/trabalho/arquivos/save_mapa.txt", jogador);
 
             GerenciadorMovimento gerenciador = new GerenciadorMovimento(tabuleiro);
+            
+            tabuleiro.iniciarThreadsDinossauros(gerenciador);
+            
             
             java.awt.EventQueue.invokeLater(() -> {
                 JanelaJogo tela = new JanelaJogo(tabuleiro, gerenciador);
@@ -69,6 +76,8 @@ public class Trabalho {
         
         Tabuleiro tabuleiro = new Tabuleiro("src/trabalho/arquivos/tabuleiro" + random + ".txt", personagem); 
         GerenciadorMovimento gerenciador = new GerenciadorMovimento(tabuleiro);
+        
+        tabuleiro.iniciarThreadsDinossauros(gerenciador);
         
         java.awt.EventQueue.invokeLater(() -> {
             JanelaJogo tela = new JanelaJogo(tabuleiro, gerenciador);

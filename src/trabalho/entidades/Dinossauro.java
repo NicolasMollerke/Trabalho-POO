@@ -6,6 +6,7 @@ package trabalho.entidades;
 
 import trabalho.modelo.ElementoDinamico;
 import trabalho.Ataque;
+import trabalho.GerenciadorMovimento;
 
 /**
  *
@@ -14,6 +15,8 @@ import trabalho.Ataque;
 public abstract class Dinossauro extends ElementoDinamico implements Ataque{
     private int saude;
     private String nome;
+    protected GerenciadorMovimento gerenciador;
+    protected volatile boolean rodando = true;
     
     public Dinossauro(int saude, int i, int j, String nome){
         super(i, j);
@@ -36,5 +39,13 @@ public abstract class Dinossauro extends ElementoDinamico implements Ataque{
     public String getNome () {
         return this.nome;
     }
+    
+    public void setGerenciador(GerenciadorMovimento gerenciador) {
+        this.gerenciador = gerenciador;
+    }
+    
+    public void pararThread() {
+    this.rodando = false;
+}
 
 }

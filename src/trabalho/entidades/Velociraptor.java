@@ -5,16 +5,22 @@
 package trabalho.entidades;
 
 import java.util.Random;
+import trabalho.GerenciadorMovimento;
 import trabalho.Movel;
 import trabalho.modelo.ElementoDinamico;
+import trabalho.JanelaJogo;
 
 /**
  *
  * @author nicol
  */
-public class Velociraptor extends Dinossauro implements Movel{
+public class Velociraptor extends Dinossauro implements Movel, Runnable{
+    
+    
+    
     public Velociraptor (int i, int j) {
         super(2, i, j, "Velociraptor");
+        
     }
 
     public int[] mover(){
@@ -44,4 +50,33 @@ public class Velociraptor extends Dinossauro implements Movel{
     public String getSimbolo() { 
         return "V"; 
     }
+    
+@Override
+    public void run() {
+        while (this.estaVivo()) { 
+            try {
+                while (JanelaJogo.isJogoPausado()) {
+                    Thread.sleep(500); 
+                }
+                
+               if (!rodando || !this.estaVivo()) 
+                   break;
+
+                Thread.sleep(1500); // Intervalo de ação do Velociraptor
+                
+                // O Velociraptor chama o movimento DUAS vezes por ciclo
+                if (gerenciador != null) {
+                    gerenciador.realizarMovimento(this);
+                    // Checa novamente se o jogo não pausou por conta do primeiro passo (ex: iniciou combate)
+                    if (!JanelaJogo.isJogoPausado() && this.estaVivo()) {
+                        gerenciador.realizarMovimento(this);
+                    }
+                }
+                
+            } catch (InterruptedException e) {
+                System.out.println("Thread do Velociraptor interrompida.");
+            }
+        }
+    }
 }
+

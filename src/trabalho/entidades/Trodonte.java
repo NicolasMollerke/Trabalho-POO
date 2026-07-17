@@ -6,17 +6,20 @@ package trabalho.entidades;
 
 import trabalho.Movel;
 import trabalho.modelo.ElementoDinamico;
-
+import trabalho.GerenciadorMovimento;
+import trabalho.JanelaJogo;
 /**
  *
  * @author nicol
  */
-public class Trodonte extends Dinossauro implements Movel{
+public class Trodonte extends Dinossauro implements Movel, Runnable{
     private Personagem personagem;
+    
     
     public Trodonte (int i, int j, Personagem personagem) {
         super(2, i, j, "Trodonte");
         this.personagem = personagem;
+        
     }
 
 public int[] mover() {
@@ -55,5 +58,37 @@ public int[] mover() {
     
     public String getSimbolo() { 
         return "T"; 
+    }
+    
+    @Override
+    public void run() {
+        // O loop principal depende exclusivamente da saúde do dinossauro (seu método)
+        while (this.estaVivo()) { 
+            try {
+                // 1. Se o jogo estiver pausado (combate rolando), a thread "dorme" e não faz nada
+                while (JanelaJogo.isJogoPausado()) {
+                    Thread.sleep(500); // Checa a cada meio segundo se o pause acabou
+                }
+                
+                // 2. Checagem extra: o dinossauro pode ter morrido durante o pause (se foi o alvo do combate)
+                if (!rodando || !this.estaVivo()) 
+                    break;
+
+                // 3. Pausa exigida pelo trabalho para simular o intervalo entre as ações dos inimigos[cite: 1]
+                Thread.sleep(1500); // Tempo do passo (ajuste por dinossauro)
+                
+                // 4. Efetua o movimento
+                if (gerenciador != null) {
+                    gerenciador.realizarMovimento(this);
+                }
+                
+            } catch (InterruptedException e) {
+                // O uso de bloco try/catch satisfaz o requisito do trabalho de fazer uso de exceção[cite: 1]
+                System.out.println("A thread do " + this.getNome() + " foi interrompida.");
+            }
+        }
+        
+        // Se saiu do while, significa que estaVivo() retornou false.
+        System.out.println("💀 Thread finalizada: " + this.getNome() + " foi de arrasta pra cima.");
     }
 }

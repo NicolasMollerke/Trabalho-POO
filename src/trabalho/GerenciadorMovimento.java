@@ -31,36 +31,7 @@ public class GerenciadorMovimento {
     }
     
         
-    public void moverDinossauros () {
-        java.util.ArrayList<Dinossauro> movidos = new java.util.ArrayList<>();
-        Elemento[][] matriz = tabuleiro.getMatriz();
-        
-        for (int i=0; i < tamanho; i++) {
-            for (int j=0; j < tamanho; j++) {
-                Elemento atual = matriz[i][j];
-                
-                if (atual instanceof Dinossauro) {
-                    Dinossauro dinossauro = (Dinossauro) atual;
-                    
-                    if(!movidos.contains(dinossauro) && dinossauro instanceof  Movel) {
-                        Movel dinoMovel = (Movel) dinossauro; //objeto real que está aqui dentro implementa a interface Movel
-                        
-                        movidos.add(dinossauro);
-                        if (dinoMovel instanceof Velociraptor) {
-                            for (int passo = 0; passo < 2; passo++) {
-                                realizarMovimento(dinoMovel, matriz, tamanho);
-                            }
-                        } 
-                        else {
-                            realizarMovimento(dinoMovel, matriz, tamanho);
-                        }
-                        
-                    }
-                }
-            }
-        }
-        
-    }
+
     
     public void moverJogador(Personagem jogador, int novaLinha, int novaColuna) {
         Elemento[][] matriz = tabuleiro.getMatriz();
@@ -117,7 +88,13 @@ public class GerenciadorMovimento {
                        
             
             Compsognato compso = new Compsognato(novaLinha, novaColuna);
+            
+            compso.setGerenciador(this);
+            
+            Thread threadSurpresa = new Thread(compso);
+            
             tabuleiro.adicionaDinossauro(); 
+            threadSurpresa.start();
             
             JanelaJogo.log("Um Compsognato surpresa atacou voce!");
             Combate combate = new Combate(jogador, compso);
@@ -136,7 +113,22 @@ public class GerenciadorMovimento {
     }
     
     
-    public void realizarMovimento(Movel elemento, Elemento[][] matriz, int tamanho) {
+    
+    // Método novo que serve de atalho para as threads chamarem
+    public synchronized void realizarMovimento(Movel elemento) {
+        // Ele pega as informações do tabuleiro interno e chama o seu método original!
+        this.realizarMovimento(elemento, this.tabuleiro.getMatriz(), this.tamanho);
+    }
+    
+    
+    public synchronized void realizarMovimento(Movel elemento, Elemento[][] matriz, int tamanho) {
+        
+        if (JanelaJogo.isJogoPausado()) {
+        return; 
+        }
+        
+        
+        
         boolean mover = false;
         int[] coordenadas = null;
         int tentativas = 0; 
@@ -149,6 +141,11 @@ public class GerenciadorMovimento {
 
         if (!mover) {
             return; 
+        }
+        
+        
+        if (JanelaJogo.isJogoPausado()) {
+        return; 
         }
 
         int novaLinha = coordenadas[0];
@@ -190,7 +187,7 @@ public class GerenciadorMovimento {
         return true;
     }
     
-    public void atualizarPosicao (ElementoDinamico elemento, int x, int y) {
+    public synchronized void atualizarPosicao (ElementoDinamico elemento, int x, int y) {
         Elemento[][] matriz = tabuleiro.getMatriz();
         
         matriz[elemento.getLinha()][elemento.getColuna()] = null;
@@ -198,5 +195,10 @@ public class GerenciadorMovimento {
         elemento.setPosicao(x, y);
         
         matriz[x][y] = elemento;
+        
+        JanelaJogo janela = JanelaJogo.getInstancia();
+        if (janela != null) {
+            janela.atualizarInterface();
+}
     }
 }

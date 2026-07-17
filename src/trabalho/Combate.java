@@ -11,6 +11,7 @@ import trabalho.entidades.Dinossauro;
 import trabalho.entidades.Personagem;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Combate {
     }
     
     public void iniciadoPorJogador(Tabuleiro tabuleiro) {
+        JanelaJogo.setJogoPausado(true);
         boolean combate = true;
         
         while (combate) {
@@ -118,9 +120,14 @@ public class Combate {
                 combate = false; 
             }               
         }
+        
+        JanelaJogo.setJogoPausado(false);
     }
 
     public void iniciadoPorDinossauro (Tabuleiro tabuleiro) {
+        
+        JanelaJogo.setJogoPausado(true);
+        
         JanelaJogo.log("\n🚨! Um dinossauro atacou voce de surpresa!");
         
         int dano = dinossauro.atacar(personagem);                     
@@ -131,5 +138,6 @@ public class Combate {
         } else {
             JanelaJogo.log("💀 Você foi derrotado no ataque surpresa inicial... Fim de jogo!");
         }
+    
     }
 }

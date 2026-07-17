@@ -18,6 +18,8 @@ import trabalho.Parede;
 import trabalho.itens.Item;
 import java.util.List;
 import java.util.ArrayList;
+import trabalho.GerenciadorMovimento;
+import trabalho.entidades.Dinossauro;
 import trabalho.itens.Arma;
 
 public class Tabuleiro {
@@ -124,7 +126,7 @@ public class Tabuleiro {
         }
     }
     
-    public void mostrarTabuleiro () {
+    public synchronized void mostrarTabuleiro () {
         int x = personagem.linha;
         int y = personagem.coluna;
         boolean visivel[][] = this.campoDeVisao(x, y);
@@ -251,6 +253,27 @@ public class Tabuleiro {
             }
         } catch (Exception e) {
             System.out.println("❌ Erro ao salvar o mapa: " + e.getMessage());
+        }
+    }
+    
+    public void iniciarThreadsDinossauros(GerenciadorMovimento gerenciador) {
+        Elemento[][] matriz = this.getMatriz();
+        
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                Elemento elemento = matriz[i][j];
+                
+                // Verifica se o elemento atual na casa é uma Thread (um Dinossauro)
+                if (elemento instanceof Runnable) {
+                    
+                    Dinossauro dino = (Dinossauro) elemento;
+                    
+                    dino.setGerenciador(gerenciador);
+                    // Inicia a vida própria do dinossauro
+                    Thread threadDino = new Thread((Runnable) elemento);
+                    threadDino.start();
+                }
+            }
         }
     }
     

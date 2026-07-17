@@ -7,12 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import trabalho.entidades.Dinossauro;
 
 public class JanelaJogo extends JFrame {
     private Tabuleiro tabuleiro;
     private GerenciadorMovimento gerenciador;
     private PainelTabuleiro painelTabuleiro;
     private static JanelaJogo instancia;
+    private static volatile boolean jogoPausado = false;
     
     private JTextArea areaTexto;
     private JLabel labelSaude;
@@ -134,11 +136,18 @@ public class JanelaJogo extends JFrame {
         btn3.setFont(new Font("Arial", Font.BOLD, 14));
 
         btn1.addActionListener(e -> {
+           
+            setJogoPausado(false);
+            
+            this.pararThreadsDinos();
+            
             String arquivo = tabuleiro.getNomeTabuleiro();
             Personagem jogador = new Personagem(tabuleiro.getPersonagem().getPercecao());
                         
             this.tabuleiro = new Tabuleiro(arquivo, jogador);
             this.gerenciador = new GerenciadorMovimento(this.tabuleiro);
+            
+            this.tabuleiro.iniciarThreadsDinossauros(this.gerenciador);
             
             this.painelTabuleiro.setTabuleiro(this.tabuleiro);
 
@@ -151,7 +160,7 @@ public class JanelaJogo extends JFrame {
         });
         
         btn2.addActionListener(e -> {
-            this.dispose();
+            JanelaJogo.finalizarJogoAtual();
             
             Trabalho.iniciarNovoJogo();
         });
@@ -175,6 +184,11 @@ public class JanelaJogo extends JFrame {
     }
 
     private void processarTeclado(int keyCode) {
+        
+        if (isJogoPausado()) {
+        return;
+        }
+        
         Personagem jogador = tabuleiro.getPersonagem();
         int[] coordenadas = new int[]{ jogador.getLinha(), jogador.getColuna() };        
         boolean debug = tabuleiro.getDebug();
@@ -200,14 +214,15 @@ public class JanelaJogo extends JFrame {
 
         if (gerenciador.posicaoValida(coordenadas[0], coordenadas[1], jogador)) {
             gerenciador.moverJogador(jogador, coordenadas[0], coordenadas[1]);
-            gerenciador.moverDinossauros();
             atualizarInterface();
             
             if (!jogador.estaVivo()) {
+                setJogoPausado(true);
                 logarMensagem("❌ Fim de Jogo! Você morreu.");
                 JOptionPane.showMessageDialog(this, "Seu personagem morreu! Você perdeu.");
             }
             if (tabuleiro.semDinossauros()) {
+                setJogoPausado(true);
                 logarMensagem("🏆 Vitória! Todos os dinossauros foram eliminados.");
                 JOptionPane.showMessageDialog(this, "Parabéns! Você venceu!");
             }
@@ -219,6 +234,7 @@ public class JanelaJogo extends JFrame {
     }
 
     public void atualizarInterface() {
+        SwingUtilities.invokeLater(() -> {
         labelSaude.setText("❤️ Saúde: " + tabuleiro.getPersonagem().getSaude());
         labelPercepcao.setText("👁️ Percepção: " + tabuleiro.getPersonagem().getPercecao());
         
@@ -244,11 +260,14 @@ public class JanelaJogo extends JFrame {
         }
 
         painelTabuleiro.repaint();
-    }
+    });
+                }
 
     public void logarMensagem(String msg) {
+        SwingUtilities.invokeLater(() -> {
         areaTexto.append(msg + "\n");
         areaTexto.setCaretPosition(areaTexto.getDocument().getLength());
+    });
     }
     
     public static void log(String mensagem) {
@@ -262,4 +281,50 @@ public class JanelaJogo extends JFrame {
     public static JanelaJogo getInstancia() {
         return instancia;
     }
+    
+    public static boolean isJogoPausado() {
+    return jogoPausado;
+}
+
+public static void setJogoPausado(boolean status) {
+    jogoPausado = status;
+}
+
+public static void finalizarJogoAtual() {
+    if (instancia != null) {
+        // 1. Reseta o status de pausa global
+        setJogoPausado(false);
+        
+        // 2. Mata as threads de todos os dinossauros
+        Tabuleiro tab = instancia.tabuleiro;
+        if (tab != null) {
+            for (int i = 0; i < tab.getTamanho(); i++) {
+                for (int j = 0; j < tab.getTamanho(); j++) {
+                    if (tab.getMatriz()[i][j] instanceof Dinossauro) {
+                        ((Dinossauro) tab.getMatriz()[i][j]).pararThread();
+                    }
+                }
+            }
+        }
+        
+        // 3. Fecha a janela antiga para não ficar acumulando
+        instancia.dispose();
+        instancia = null;
+    }
+}
+
+public void pararThreadsDinos() {
+    Tabuleiro tab = this.tabuleiro;
+    if (tab != null) {
+        for (int i = 0; i < tab.getTamanho(); i++) {
+            for (int j = 0; j < tab.getTamanho(); j++) {
+                if (tab.getMatriz()[i][j] instanceof Dinossauro) {
+                    ((Dinossauro) tab.getMatriz()[i][j]).pararThread();
+                }
+            }
+        }
+    }
+}
+
+
 }
