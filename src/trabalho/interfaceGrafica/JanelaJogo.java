@@ -29,7 +29,7 @@ public class JanelaJogo extends JFrame {
         this.gerenciador = gerenciador;
         instancia = this;
         
-        setTitle("Jurassic Survival Game");
+        setTitle("Sobrevivência Jurássica");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         

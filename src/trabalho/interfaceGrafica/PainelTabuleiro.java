@@ -30,7 +30,7 @@ import trabalho.entidades.Velociraptor;
  * @author Windows 11
  */
 public class PainelTabuleiro extends JPanel{
-        private final int TAMANHO_CELULA = 45;
+        private final int TAMANHO_CELULA = 35;
         private Tabuleiro tabuleiro;
         private Image imagemTrodonte;
         private Image imagemCompsoganto;
