@@ -4,8 +4,8 @@
  */
 package trabalho.itens;
 
-import trabalho.Ataque;
-import trabalho.JanelaJogo;
+import trabalho.interfaces.Ataque;
+import trabalho.interfaceGrafica.JanelaJogo;
 import trabalho.modelo.ElementoDinamico;
 
 /**

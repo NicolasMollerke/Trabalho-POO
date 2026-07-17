@@ -10,20 +10,25 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import trabalho.Ataque;
+import trabalho.interfaces.Ataque;
 import trabalho.modelo.ElementoDinamico;
 import trabalho.itens.Inventario;
-import trabalho.JanelaJogo;
-import trabalho.Movel;
+import trabalho.interfaceGrafica.JanelaJogo;
+import trabalho.interfaces.Movel;
 import trabalho.itens.Arma;
+import trabalho.itens.Caixa;
 import trabalho.itens.Item;
 import trabalho.itens.Kit;
+import trabalho.mecanicas.Combate;
+import trabalho.mecanicas.GerenciadorMovimento;
+import trabalho.modelo.Elemento;
+import trabalho.modelo.Tabuleiro;
 
 /**
  *
  * @author nicol
  */
-public class Personagem extends ElementoDinamico implements Movel,Ataque{
+public class Personagem extends ElementoDinamico implements Ataque{
     private int percepcao;
     private int saude;
     private Inventario inventario;
@@ -63,11 +68,11 @@ public class Personagem extends ElementoDinamico implements Movel,Ataque{
             JanelaJogo.log("Voce desviou do ataque!");
         } else {
             this.saude = this.saude - dano;
-            JanelaJogo.log("🦖 O Dinossauro contra-atacou e te deu " + dano + " de dano!");
+            JanelaJogo.log("🦖 O Dinossauro atacou e te deu " + dano + " de dano!");
         }
     }
     
-    public int[] mover() {
+    /*public int[] mover() {
         int[] coordenadas = new int[2]; 
         
         Scanner teclado = new Scanner(System.in);
@@ -104,6 +109,43 @@ public class Personagem extends ElementoDinamico implements Movel,Ataque{
         coordenadas[1] = colunaNova;
         
         return coordenadas;
+    }*/
+    
+    public void moverJogador(int novaLinha, int novaColuna, GerenciadorMovimento gerenciador) {
+        Tabuleiro tabuleiro = gerenciador.getTabuleiro();
+        Elemento[][] matriz = tabuleiro.getMatriz();
+
+            if (!gerenciador.posicaoValida(novaLinha, novaColuna, (ElementoDinamico) this)) {
+                JanelaJogo.log("Limite do mapa atingido! Tente novamente.");
+                return;
+            }
+
+            Elemento destino = matriz[novaLinha][novaColuna];
+
+            if (destino == null) {
+                gerenciador.atualizarPosicao((ElementoDinamico)this, novaLinha, novaColuna);
+            } 
+
+            else if (destino instanceof Caixa) {
+                JanelaJogo.log("\n[!] Voce pisou em uma caixa de suprimentos 'X'!");
+                Caixa caixa = (Caixa) destino;
+                Item itemSurpresa = caixa.abrirCaixa(tabuleiro);
+
+                gerenciador.processarItemCaixa(this, itemSurpresa, novaLinha, novaColuna, tabuleiro.getMatriz());
+            } 
+
+            else if (destino instanceof Dinossauro) {
+                Dinossauro dinossauro = (Dinossauro) destino;
+                
+                String nomeDino = dinossauro.getNome();
+                JanelaJogo.log("Voce iniciou um combate com " + nomeDino);
+
+                Combate combate = new Combate(this, dinossauro);
+                combate.iniciadoPorJogador(tabuleiro);
+            } 
+            else {
+                JanelaJogo.log("Caminho bloqueado por uma parede! Tente outra direção.");
+            }
     }
     
     public void usarKit () {

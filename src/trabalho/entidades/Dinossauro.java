@@ -5,8 +5,8 @@
 package trabalho.entidades;
 
 import trabalho.modelo.ElementoDinamico;
-import trabalho.Ataque;
-import trabalho.GerenciadorMovimento;
+import trabalho.interfaces.Ataque;
+import trabalho.mecanicas.GerenciadorMovimento;
 
 /**
  *
@@ -45,7 +45,7 @@ public abstract class Dinossauro extends ElementoDinamico implements Ataque{
     }
     
     public void pararThread() {
-    this.rodando = false;
-}
+        this.rodando = false;
+    }
 
 }

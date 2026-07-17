@@ -12,13 +12,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import trabalho.Caixa;
-import trabalho.JanelaJogo;
+import trabalho.itens.Caixa;
+import trabalho.interfaceGrafica.JanelaJogo;
 import trabalho.Parede;
 import trabalho.itens.Item;
 import java.util.List;
 import java.util.ArrayList;
-import trabalho.GerenciadorMovimento;
+import trabalho.mecanicas.GerenciadorMovimento;
 import trabalho.entidades.Dinossauro;
 import trabalho.itens.Arma;
 
@@ -227,15 +227,8 @@ public class Tabuleiro {
     public void desativarDebug() {
         this.debug = false;
     }
-    
-    public void salvarJogo() {
-        salvarMapa("src/trabalho/arquivos/save_mapa.txt");
-        personagem.salvarPersonagem("src/trabalho/arquivos/save_jogador.txt");
-        
-        System.out.println("💾 Jogo salvo com sucesso! (Mapa e Jogador)");
-    }
-
-    private void salvarMapa(String nomeArquivo) {
+  
+    public void salvarMapa(String nomeArquivo) {
         try (FileWriter fw = new FileWriter(nomeArquivo);
              PrintWriter pw = new PrintWriter(fw)) {
             
@@ -263,13 +256,13 @@ public class Tabuleiro {
             for (int j = 0; j < matriz[i].length; j++) {
                 Elemento elemento = matriz[i][j];
                 
-                // Verifica se o elemento atual na casa é uma Thread (um Dinossauro)
+                //procura o dinossauro
                 if (elemento instanceof Runnable) {
                     
                     Dinossauro dino = (Dinossauro) elemento;
                     
                     dino.setGerenciador(gerenciador);
-                    // Inicia a vida própria do dinossauro
+                    //inicia a thread
                     Thread threadDino = new Thread((Runnable) elemento);
                     threadDino.start();
                 }

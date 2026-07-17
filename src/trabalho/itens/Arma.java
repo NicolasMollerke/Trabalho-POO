@@ -4,10 +4,10 @@
  */
 package trabalho.itens;
 
-import trabalho.JanelaJogo;
+import trabalho.interfaceGrafica.JanelaJogo;
 import trabalho.entidades.Dinossauro;
 import trabalho.entidades.Velociraptor;
-import trabalho.Ataque;
+import trabalho.interfaces.Ataque;
 import trabalho.modelo.ElementoDinamico;
 
 /**

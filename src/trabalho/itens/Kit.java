@@ -4,7 +4,7 @@
  */
 package trabalho.itens;
 
-import trabalho.JanelaJogo;
+import trabalho.interfaceGrafica.JanelaJogo;
 import trabalho.entidades.Personagem;
 
 /**

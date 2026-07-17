@@ -5,10 +5,10 @@
 package trabalho.entidades;
 
 import java.util.Random;
-import trabalho.GerenciadorMovimento;
-import trabalho.Movel;
+import trabalho.mecanicas.GerenciadorMovimento;
+import trabalho.interfaces.Movel;
 import trabalho.modelo.ElementoDinamico;
-import trabalho.JanelaJogo;
+import trabalho.interfaceGrafica.JanelaJogo;
 
 /**
  *
@@ -67,7 +67,6 @@ public class Velociraptor extends Dinossauro implements Movel, Runnable{
                 // O Velociraptor chama o movimento DUAS vezes por ciclo
                 if (gerenciador != null) {
                     gerenciador.realizarMovimento(this);
-                    // Checa novamente se o jogo não pausou por conta do primeiro passo (ex: iniciou combate)
                     if (!JanelaJogo.isJogoPausado() && this.estaVivo()) {
                         gerenciador.realizarMovimento(this);
                     }
