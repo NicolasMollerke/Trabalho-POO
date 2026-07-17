@@ -13,6 +13,7 @@ import trabalho.entidades.Personagem;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import trabalho.interfaceGrafica.Trabalho;
 
 /**
  *
@@ -145,6 +146,8 @@ public class Combate {
             this.iniciadoPorJogador(tabuleiro);
         } else {
             JanelaJogo.log("💀 Você foi derrotado no ataque surpresa inicial... Fim de jogo!");
+            JanelaJogo.finalizarJogoAtual();
+            Trabalho.iniciarNovoJogo();
         }
     
     }

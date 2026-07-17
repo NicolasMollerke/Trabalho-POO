@@ -221,6 +221,8 @@ public class JanelaJogo extends JFrame {
                 setJogoPausado(true);
                 logarMensagem("❌ Fim de Jogo! Você morreu.");
                 JOptionPane.showMessageDialog(this, "Seu personagem morreu! Você perdeu.");
+                JanelaJogo.finalizarJogoAtual();
+                Trabalho.iniciarNovoJogo();
             }
             if (tabuleiro.semDinossauros()) {
                 setJogoPausado(true);
