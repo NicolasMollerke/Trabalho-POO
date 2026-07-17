@@ -4,7 +4,7 @@
  */
 package trabalho.mecanicas;
 
-import trabalho.Parede;
+import trabalho.itens.Parede;
 import trabalho.interfaceGrafica.JanelaJogo;
 import trabalho.interfaces.Movel;
 import trabalho.itens.Item;

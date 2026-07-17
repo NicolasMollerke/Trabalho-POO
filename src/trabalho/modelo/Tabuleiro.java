@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import trabalho.itens.Caixa;
 import trabalho.interfaceGrafica.JanelaJogo;
-import trabalho.Parede;
+import trabalho.itens.Parede;
 import trabalho.itens.Item;
 import java.util.List;
 import java.util.ArrayList;
