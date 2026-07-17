@@ -1,3 +1,3 @@
-SAUDE:4
+SAUDE:5
 PERCEPCAO:2
-ITENS:arma-0,kit
+ITENS:arma-2

@@ -59,7 +59,7 @@ public class JanelaJogo extends JFrame {
         });
     }
 
-    // Cria a barra lateral direita
+    //barra lateral direita
     private JPanel criarPainelControle() {
         JPanel painel = new JPanel();
         painel.setPreferredSize(new Dimension(300, tabuleiro.getTamanho() * 35));
@@ -84,7 +84,6 @@ public class JanelaJogo extends JFrame {
         painelInventario.setBackground(Color.LIGHT_GRAY);
         painelInventario.setBorder(BorderFactory.createTitledBorder("🎒 Inventário"));
         
-        Inventario inv = tabuleiro.getPersonagem().getInventario();
         labelArma = new JLabel("");
         labelArma.setFont(new Font("Arial", Font.PLAIN, 14));
         labelBastao = new JLabel("");
